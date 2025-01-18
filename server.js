@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello RPGamers!');
-}});
+});
 
 const PORT = process.env.PORT || 5000;
 
@@ -24,3 +24,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     console.log(err);
 });
 
+
+
+module.exports = router;
