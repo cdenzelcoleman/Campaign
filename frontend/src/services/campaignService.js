@@ -18,3 +18,15 @@ export const publishCampaign = async (id, token) => {
     headers: {Authorization: `Bearer ${token}`},
   });
 };
+
+export const likeCampaign = async (id, token) => {
+  return axios.post(`${API_URL}/${id}/like`, {}, {
+    headers: {Authorization: `Bearer ${token}`},
+  });
+};
+
+export const commentCampaign = async (id, comment, token) => {
+  return axios.post(`${API_URL}/${id}/comment`, { comment }, {
+    headers: {Authorization: `Bearer ${token}`}
+  });
+};
