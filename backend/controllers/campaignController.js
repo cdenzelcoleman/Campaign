@@ -1,22 +1,19 @@
 const Post = require('../models/post');
+const { generateNarative } = require('../utilities/openaiService');
+
+const generateNarativeController = async (req, res) => {
+  const { prompt } = req.body;
+  if (!prompt) {
+    return res.status(400).json({ message: 'Prompt is required' });
+  }
+  try {
+    const narative = await generateNarative(prompt);
+    res.status(200).json({ narative});
+  } catch (error) {
+    res.status(500).json({ message: 'Fighting Curse to generate narative' });
+    }
+  };
 
 module.exports = {
-  create,
-  index
+  generateNarative: generateNarativeController,
 };
-
-async function index(req, res) {
-  const posts = await Post.find({}).populate('user').sort('-createdAt');
-  res.json(posts);
-}
-
-async function create(req, res) {
-  try {
-    req.body.user = req.user._id;
-    const post = await Post.create(req.body);
-    res.json(post);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: 'Create Post Failed' });
-  }
-}
