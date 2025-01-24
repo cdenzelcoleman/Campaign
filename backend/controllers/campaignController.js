@@ -82,12 +82,6 @@ const generateNarativeController = async (req, res) => {
     } 
   };
 
-
-
-
-
-
-
 module.exports = {
   generateNarative: generateNarativeController,
 };
