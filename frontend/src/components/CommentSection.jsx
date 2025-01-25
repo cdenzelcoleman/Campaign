@@ -13,7 +13,7 @@ const CommentSection = ({ campaignId, comments }) => {
 
         try{
             const response = await commentCampaign(campaignId, comment, token);
-            setCurrentComments([response.data.comment);
+            setCurrentComments([response.data.comment]);
             setComment('');
         } catch (err) {
             setError('Failed to comment');
