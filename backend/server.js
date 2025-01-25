@@ -2,6 +2,10 @@ const path = require('path'); // Built into Node
 const express = require('express');
 const logger = require('morgan');
 const app = express();
+const auth = require('./routes/auth');
+const campaignRoutes = require('./routes/campaignRoutes');
+const openaiRoutes = require('./routes/openaiRoutes');
+const errorHandler = require('./middleware/errorHandler');
 
 // Process the secrets/config vars in .env
 require('dotenv').config();
@@ -21,6 +25,8 @@ app.use(require('./middleware/checkToken'));
 
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/campaigns', require('./routes/campaignRoutes'));
+app.use('/api/openai', require('./routes/openaiRoutes'));
 
 // All routers below will have all routes protected
 app.use(require('./middleware/ensureLoggedIn'));
@@ -32,7 +38,9 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
-const port = process.env.PORT || 3000;
+app.use(errorHandler);
+
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`The express app is listening on ${port}`);
 });
