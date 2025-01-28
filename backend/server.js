@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import logger from 'morgan';
 import connectDB from './utilities/db.js';
 import authRoutes from './routes/auth.js';
 import campaignRoutes from './routes/campaignRoutes.js';
@@ -25,9 +25,10 @@ connectDB();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
+app.use('/api/auth', authRoutes);
+
 app.use(checkToken);
 
-app.use('/api/auth', authRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/openai', openaiRoutes);
 

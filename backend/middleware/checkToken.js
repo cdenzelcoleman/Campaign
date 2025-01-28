@@ -12,7 +12,7 @@ export function checkToken(req, res, next) {
     token = token.slice(7, token.length).trimLeft();
   }
 
-  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       req.user = null;
       return next();
