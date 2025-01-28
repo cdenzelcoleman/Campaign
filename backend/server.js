@@ -1,48 +1,49 @@
-const path = require('path'); // Built into Node
-const express = require('express');
-const logger = require('morgan');
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import logger from 'morgan';
+import connectDB from './utilities/db.js';
+import authRoutes from './routes/auth.js';
+import campaignRoutes from './routes/campaignRoutes.js';
+import openaiRoutes from './routes/openaiRoutes.js';
+import { checkToken } from './middleware/checkToken.js';
+import { errorHandler } from './middleware/errorHandler.js';
+
+
 const app = express();
-const auth = require('./routes/auth');
-const campaignRoutes = require('./routes/campaignRoutes');
-const openaiRoutes = require('./routes/openaiRoutes');
-const errorHandler = require('./middleware/errorHandler');
 
-// Process the secrets/config vars in .env
-require('dotenv').config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Connect to the database
-require('./db');
+connectDB();
 
 app.use(logger('dev'));
-// Serve static assets from the frontend's built code folder (dist)
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-// Note that express.urlencoded middleware is not needed
-// because forms are not submitted!
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Check & verify token.  If so, add user payload to req.user
-app.use(require('./middleware/checkToken'));
+app.use(checkToken);
 
-// API Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/campaigns', require('./routes/campaignRoutes'));
-app.use('/api/openai', require('./routes/openaiRoutes'));
+app.use('/api/auth', authRoutes);
+app.use('/api/campaigns', campaignRoutes);
+app.use('/api/openai', openaiRoutes);
 
-// All routers below will have all routes protected
-app.use(require('./middleware/ensureLoggedIn'));
-
-app.use('/api/posts', require('./routes/posts'));
-
-// Use a "catch-all" route to deliver the frontend's production index.html
-app.get('*', function (req, res) {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 app.use(errorHandler);
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`The express app is listening on ${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, (err) => {
+  if (err) {
+    console.error('Failed to start server:', err);
+  } else {
+    console.log(`Server listening on port ${PORT}`);
+  }
 });
 
-
+export default app;

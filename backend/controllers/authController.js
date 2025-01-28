@@ -1,11 +1,8 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const User = require('../models/user');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import User from '../models/user.js';
 
-module.exports = {
-  signUp,
-  logIn
-};
+export { signUp, logIn };
 
 async function logIn(req, res) {
   try {
@@ -32,13 +29,8 @@ async function signUp(req, res) {
   }
 }
 
-
-
-/*--- Help Functions ---*/
-
 function createJWT(user) {
   return jwt.sign(
-    // data payload
     { user },
     process.env.SECRET,
     { expiresIn: '24h' }

@@ -1,27 +1,17 @@
-const express = require('express');
+import express from 'express';
+import {
+  getCampaigns,
+  publishCampaign,
+  likeCampaign,
+  addComment,
+} from '../controllers/campaignController.js';
+import { ensureLoggedIn } from '../middleware/ensureLoggedIn.js';
+
 const router = express.Router();
-const { generateNarative } = require('../controllers/campaignController');
-const checkToken = require('../middleware/checkToken');
-const ensureLoggedIn = require('../middleware/ensureLoggedIn');
-const campaignController = require('../controllers/campaignController');
 
+router.get('/', getCampaigns);
+router.put('/:id/publish', ensureLoggedIn, publishCampaign);
+router.put('/:id/like', ensureLoggedIn, likeCampaign);
+router.post('/:id/comments', ensureLoggedIn, addComment);
 
-//Middleware
-
-router.use(checkToken);
-
-router.put('/publish/:id', ensureLoggedIn, publishCampaign, campaignController);
-
-
-router.post('/:id/like', ensureLoggedIn, campaignController.likeCampaign);
-
-
-router.post('/:id/comment', ensureLoggedIn, campaignController.commentCampaign);
-
-
-
-// POST /api/campaigns
-
-router.post('/generate-narrative', checkToken, ensureLoggedIn, generateNarative);
-
-module.exports = router;
+export default router;

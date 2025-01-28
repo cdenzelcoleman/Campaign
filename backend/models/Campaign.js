@@ -1,27 +1,60 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const CommentSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+const commentSchema = new mongoose.Schema({
+  user: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
+    required: true 
   },
-  comment: {
-    type: String,
-    required: true,
-    trim: true
+  text: { 
+    type: String, 
+    required: true, 
+    trim: true, 
+    maxlength: 500 
+  },
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
   }
-}, {
-  timestamps: true
 });
 
-const CampaignSchema = new mongoose.Schema({
-  title: { type: String, required: true, trim: true },
-  description: { type: String, required: true, trim: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  published: { type: Boolean, default: false },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  comments: [CommentSchema],
-}, { timestamps: true });
+const campaignSchema = new mongoose.Schema({
+  title: { 
+    type: String, 
+    required: true, 
+    trim: true, 
+    maxlength: 100 
+  },
+  content: { 
+    type: String, 
+    required: true, 
+    trim: true 
+  },
+  isPublished: { 
+    type: Boolean, 
+    default: false 
+  },
+  publishedDate: { 
+    type: Date 
+  },
+  likes: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User' 
+  }],
+  comments: [commentSchema],
+  user: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
+    required: true 
+  },
+}, {
+  timestamps: true,
+  toJSON: {
+    transform: function (doc, ret) {
+      delete ret.__v;
+      return ret;
+    },
+  },
+});
 
-module.exports = mongoose.model('Campaign', CampaignSchema);
+export default mongoose.model('Campaign', campaignSchema);

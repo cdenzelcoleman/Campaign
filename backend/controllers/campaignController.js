@@ -1,87 +1,93 @@
-const Post = require('../models/Campaign');
-const { generateNarative } = require('../utilities/openaiService');
-const Campaign = require('../models/Campaign');
+import Campaign from '../models/Campaign.js';
 
-const generateNarativeController = async (req, res) => {
-  const { prompt } = req.body;
-  if (!prompt) {
-    return res.status(400).json({ message: 'Prompt is required' });
-  }
+export const getCampaigns = async (req, res) => {
   try {
-    const narative = await generateNarative(prompt);
-    res.status(200).json({ narative});
+    const campaigns = await Campaign.find()
+      .populate('user', 'username email') 
+      .populate('likes', 'username email') 
+      .populate('comments.user', 'username email'); 
+
+    res.json(campaigns);
   } catch (error) {
-    res.status(500).json({ message: 'Fighting Curse to generate narative' });
+    console.error('Get Campaigns Error:', error);
+    res.status(500).json({ error: 'Failed to fetch campaigns' });
+  }
+};
+
+export const publishCampaign = async (req, res) => {
+  try {
+    const campaign = await Campaign.findById(req.params.id);
+
+    if (campaign.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: 'Unauthorized to publish this campaign' });
     }
-  };
 
-  exports.publishCampaign = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const campaign = await Campaign.findById(id);
-      if (!campaign) {
-        return res.status(404).json({ message: 'Campaign not found' });
-      }
+    const updatedCampaign = await Campaign.findByIdAndUpdate(
+      req.params.id,
+      { 
+        isPublished: true,
+        publishedDate: Date.now(),
+      },
+      { new: true }
+    );
 
-      if (campaign.user.toString() !== req.user._id.toString()) {
-        return res.status(403).json({ message: 'Unauthorized' });
-      }
+    res.json(updatedCampaign);
+  } catch (error) {
+    console.error('Publish Campaign Error:', error);
+    res.status(400).json({ error: error.message });
+  }
+};
 
-      campaign.published = true;
-      await campaign.save();
+export const likeCampaign = async (req, res) => {
+  try {
+    const campaign = await Campaign.findById(req.params.id);
+    const userId = req.user._id;
 
-      res.json({ message: 'Campaign published', campaign });
-    } catch (error) {
-      res.status(500).json({ message: 'Error publishing campaign' });
+    if (campaign.likes.includes(userId)) {
+      campaign.likes.pull(userId);
+    } else {
+      campaign.likes.push(userId);
     }
-  };
 
-  exports.likeCampaign = async (req, res) => {
-    try{
-      const { id } = req.params;
-      const campaign = await Campaign.findById(id);
+    await campaign.save();
 
-      if (!campaign) {
-        return res.status(404).json({ message: 'Campaign not found' });
-      }
+    const populatedCampaign = await Campaign.findById(campaign._id)
+      .populate('likes', 'username email');
 
-      if (campaign.likes.includes(req.user._id)) {
-        return res.status(400).json({ message: 'Campaign already liked' });
-      }
+    res.json(populatedCampaign);
+  } catch (error) {
+    console.error('Like Campaign Error:', error);
+    res.status(400).json({ error: error.message });
+  }
+};
 
-      campaign.likes.push(req.user._id);
-      await campaign.save();
+export const addComment = async (req, res) => {
+  try {
+    const { text } = req.body;
+    const { id } = req.params;
 
-      res.json({ message: 'Campaign liked', likes: campaign.likes.length });
-    } catch (error) {
-      res.status(500).json({ message: 'Error liking campaign' });
+    if (!text || !id) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-  };
 
-  exports.commentCampaign = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { comment } = req.body;
-      const campaign = await Campaign.findById(id);
+    const campaign = await Campaign.findById(id);
+    if (!campaign) {
+      return res.status(404).json({ error: 'Campaign not found' });
+    }
 
-      if (!campaign) {
-        return res.status(404).json({ message: 'Campaign not found' });
-      }
+    campaign.comments.push({
+      user: req.user._id,
+      text,
+    });
 
-      const newComment = {
-        user: req.user._id,
-        comment,
-      };
+    await campaign.save();
 
-      campaign.comments.push(newComment);
-      await campaign.save();
+    const populatedCampaign = await Campaign.findById(campaign._id)
+      .populate('comments.user', 'username email');
 
-      res.json({ message: 'Comment added', comment: newComment });
-    } catch (error) {
-      res.status(500).json({ message: 'Error commenting on campaign' });
-    } 
-  };
-
-module.exports = {
-  generateNarative: generateNarativeController,
+    res.json(populatedCampaign.comments);
+  } catch (error) {
+    console.error('Add Comment Error:', error);
+    res.status(400).json({ error: error.message });
+  }
 };

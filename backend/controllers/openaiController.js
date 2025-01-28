@@ -1,28 +1,25 @@
-const axios = require('axios');
+import { generateNarrative } from '../utilities/openaiService.js';
+import logger from '../utilities/logger.js'; 
 
-module.exports.generateNarative = async (req, res) => {
-    const {prompt} = req.body;
-    if (!prompt) {
-        return res.status(400).json({message: 'Prompt is required'});
-    }
+export const getNarrative = async (req, res) => {
+  const { prompt, context } = req.body;
 
-    try {
-        const response = await axios.post(
-            'https://api.openai.com/v1/engines/davinci/completions',
-            {
-                prompt: prompt,
-                max_tokens: 100,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-                },
-            }
-        );
+  if (!prompt || typeof prompt !== 'string') {
+    return res.status(400).json({ error: 'Invalid or missing prompt' });
+  }
 
-        res.json({narative: response.data.choices[0].text.trim()});
-    } catch (error) {
-        res.status(500).json({message: 'Error generating narative'});
-    }
+  try {
+    const narrative = await generateNarrative(prompt, context || '');
+
+    logger.info(`Narrative generated for prompt: ${prompt.substring(0, 50)}...`);
+
+    res.json({ narrative });
+  } catch (error) {
+    logger.error('OpenAI Narrative Generation Error:', error);
+
+    res.status(500).json({ 
+      error: 'Failed to generate narrative',
+      details: error.message || 'Internal server error',
+    });
+  }
 };

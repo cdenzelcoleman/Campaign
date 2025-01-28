@@ -1,10 +1,18 @@
-const express = require('express');
+import express from 'express';
+import { generateNarrative } from '../utilities/openaiService.js';
+import { ensureLoggedIn } from '../middleware/ensureLoggedIn.js';
+
+
 const router = express.Router();
-const openaiController = require('../controllers/openaiController');
-const checkToken = require('../middleware/checkToken');
-const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
-router.use(checkToken);
-router.post('/generate', ensureLoggedIn, openaiController.generateNarative)
+router.post('/generate', ensureLoggedIn, async (req, res) => {
+  try {
+    const { prompt, context } = req.body;
+    const narrative = await generateNarrative(prompt, context);
+    res.json({ narrative });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
-module.exports = router;
+export default router;

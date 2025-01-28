@@ -1,24 +1,30 @@
-const {Configuration, OpenAIApi} = require('openai');
+import OpenAI from 'openai';
 
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export const generateNarrative = async (prompt, context = '') => {
+  try {
+    const completion = await client.chat.completions.create({
+      messages: [
+        { 
+          role: 'system', 
+          content: 'You are a fantasy RPG game master. Respond in 2-3 sentences.' 
+        },
+        { 
+          role: 'user', 
+          content: `${context}\n\n${prompt}` 
+        },
+      ],
+      model: 'gpt-3.5-turbo',
+      max_tokens: 150,
+      temperature: 0.7,
     });
 
-const openai = new OpenAIApi(configuration);
-
-const generateNarative = async (prompt) => {
-    try {
-        const response = await openai.createCompletion({
-            model: 'text-davinci-003',
-            prompt: prompt,
-            max_tokens: 200,
-        });
-        return response.data.choices[0].text;
-    } catch (error) {
-        throw new Error("Fighting curse to generate narative");
-    }
-};
-
-module.exports = {
-    generateNarative,
+    return completion.choices[0].message.content;
+  } catch (error) {
+    logger.error('OpenAI API Error:', error);
+    throw new Error('Failed to generate narrative. Please try again later.');
+  }
 };
