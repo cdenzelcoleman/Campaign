@@ -2,10 +2,11 @@
   "name": "campaign",
   "version": "1.0.0",
   "type": "module",
-  "main": "./server.js",
+  "main": "./backend/server.js",
   "scripts": {
-    "start": "node ./server.js",
-    "build": "npm install && npm --prefix ../frontend install  && npm --prefix ../frontend run build"
+    "start": "node ./backend/server.js",
+    "build": "npm install && npm --prefix ./frontend install  && npm --prefix ./frontend run build",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
     "morgan": "^1.10.0",
+    "nodemon": "^3.1.9",
     "openai": "^4.80.1"
   }
 }

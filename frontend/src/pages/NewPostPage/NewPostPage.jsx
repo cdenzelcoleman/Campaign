@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import * as postService from '../../services/postService';
+// import * as postService from '../../services/postService';
 
 export default function NewPostPage() {
   const [content, setContent] = useState('');
@@ -10,7 +10,7 @@ export default function NewPostPage() {
   async function handleSubmit(evt) {
     evt.preventDefault();
     try {
-      const post = await postService.create(content);
+      // const post = await postService.create(content);
       navigate('/posts');
     } catch (err) {
       console.log(err);

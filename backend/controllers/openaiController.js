@@ -1,5 +1,4 @@
 import { generateNarrative } from '../utilities/openaiService.js';
-import logger from '../utilities/logger.js'; 
 
 export const getNarrative = async (req, res) => {
   const { prompt, context } = req.body;
