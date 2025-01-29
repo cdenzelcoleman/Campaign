@@ -28,3 +28,17 @@
     color: rgb(108, 9, 87);
   }
 }
+
+
+@media (max-width: 768px) {
+  .NavBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .NavBar a,
+  .NavBar button,
+  .NavBar .welcome-message {
+    margin: 5px 0;
+  }
+}

@@ -1,0 +1,63 @@
+.
+├── README.md
+├── backend
+│   ├── controllers
+│   │   ├── authController.js
+│   │   ├── campaignController.js
+│   │   └── openaiController.js
+│   ├── middleware
+│   │   ├── checkToken.js
+│   │   ├── ensureLoggedIn.js
+│   │   └── errorHandler.js
+│   ├── models
+│   │   ├── Campaign.js
+│   │   └── user.js
+│   ├── routes
+│   │   ├── auth.js
+│   │   ├── campaignRoutes.js
+│   │   ├── openaiRoutes.js
+│   │   └── posts.js
+│   ├── server.js
+│   └── utilities
+│       ├── db.js
+│       └── openaiService.js
+├── directory-tree.txt
+├── frontend
+│   ├── dist
+│   │   ├── assets
+│   │   │   ├── index-FcAA00Pf.css
+│   │   │   └── index-ZEvjL5U2.js
+│   │   ├── index.html
+│   │   └── vite.svg
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── public
+│   │   └── vite.svg
+│   ├── src
+│   │   ├── assets
+│   │   │   └── react.svg
+│   │   ├── components
+│   │   │   ├── CampaignDetail.jsx
+│   │   │   ├── CommentSection.jsx
+│   │   │   ├── NarrativeGenerator.jsx
+│   │   │   ├── NavBar
+│   │   │   └── PublishedCampaigns.jsx
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   ├── pages
+│   │   │   ├── App
+│   │   │   ├── HomePage
+│   │   │   ├── LogInPage
+│   │   │   ├── NewPostPage
+│   │   │   ├── PostListPage
+│   │   │   └── SignUpPage
+│   │   └── services
+│   │       ├── authService.js
+│   │       ├── campaignService.js
+│   │       ├── openaiService.js
+│   │       └── sendRequest.js
+│   └── vite.config.js
+└── package-lock.json
+
+23 directories, 38 files
