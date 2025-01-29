@@ -43,6 +43,8 @@
 │   │   │   ├── NarrativeGenerator.jsx
 │   │   │   ├── NavBar
 │   │   │   └── PublishedCampaigns.jsx
+│   │   ├── context
+│   │   │   └── AuthContext.jsx
 │   │   ├── index.css
 │   │   ├── main.jsx
 │   │   ├── pages
@@ -60,4 +62,4 @@
 │   └── vite.config.js
 └── package-lock.json
 
-23 directories, 38 files
+24 directories, 39 files
