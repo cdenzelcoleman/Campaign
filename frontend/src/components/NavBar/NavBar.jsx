@@ -1,85 +1,61 @@
 import React, { useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { logOut } from '../../services/authService';
+import { Link, useNavigate } from 'react-router-dom';
 import './NavBar.css';
 import { AuthContext } from '../../context/AuthContext';
 
-export default function NavBar() {
-  const navigate = useNavigate();
+const NavBar = () => {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleLogOut = async () => {
-    try {
-      await logOut();
-      logout(); 
-      navigate('/');
-    } catch (error) {
-      console.error('Logout failed:', error);
-      alert('Failed to log out. Please try again.');
-    }
+  const handleLogout = () => {
+    logout();
+    navigate('/'); // Redirect to home after logout
   };
 
   return (
-    <nav className="NavBar">
-      <NavLink 
-        to="/" 
-        className={({ isActive }) => (isActive ? 'active' : '')}
-        end
-      >
-        Home
-      </NavLink>
-      &nbsp; | &nbsp;
-      {user ? (
-        <>
-          <NavLink 
-            to="/posts" 
-            className={({ isActive }) => (isActive ? 'active' : '')}
-            end
-          >
-            Post List
-          </NavLink>
-          &nbsp; | &nbsp;
-          <NavLink 
-            to="/posts/new" 
-            className={({ isActive }) => (isActive ? 'active' : '')}
-          >
-            New Post
-          </NavLink>
-          &nbsp; | &nbsp;
-          <NavLink 
-            to="/campaigns/published" 
-            className={({ isActive }) => (isActive ? 'active' : '')}
-          >
-            Published Campaigns
-          </NavLink>
-          &nbsp; | &nbsp;
-          <button 
-            onClick={handleLogOut} 
-            className="logout-button"
-            aria-label="Log Out"
-          >
-            Log Out
-          </button>
-          &nbsp; | &nbsp;
-          <span className="welcome-message">Welcome, {user.name}</span>
-        </>
-      ) : (
-        <>
-          <NavLink 
-            to="/login" 
-            className={({ isActive }) => (isActive ? 'active' : '')}
-          >
-            Log In
-          </NavLink>
-          &nbsp; | &nbsp;
-          <NavLink 
-            to="/signup" 
-            className={({ isActive }) => (isActive ? 'active' : '')}
-          >
-            Sign Up
-          </NavLink>
-        </>
-      )}
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <Link to="/">Fantasy RPG</Link>
+      </div>
+      <ul className="navbar-links">
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/campaigns">Campaigns</Link>
+        </li>
+        <li>
+          <Link to="/campaigns/published">Published Campaigns</Link>
+        </li>
+        {user && (
+          <>
+            <li>
+              <Link to="/new-campaign">New Campaign</Link>
+            </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+          </>
+        )}
+        {!user ? (
+          <>
+            <li>
+              <Link to="/signup">Sign Up</Link>
+            </li>
+            <li>
+              <Link to="/login">Log In</Link>
+            </li>
+          </>
+        ) : (
+          <li>
+            <button className="logout-button" onClick={handleLogout}>
+              Log Out
+            </button>
+          </li>
+        )}
+      </ul>
     </nav>
   );
-}
+};
+
+export default NavBar;

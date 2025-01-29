@@ -34,3 +34,12 @@ export function getToken() {
   return token;
 }
 
+const getCurrentUser = async (token) => {
+  return await sendRequest('/api/auth/user', 'GET', null, token);
+};
+
+const updateUserProfile = async (profileData, token) => {
+  return await sendRequest('/api/auth/profile', 'PUT', profileData, token);
+};
+
+export {  getCurrentUser, updateUserProfile };

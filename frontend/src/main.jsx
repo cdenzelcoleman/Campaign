@@ -1,45 +1,39 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
 import App from './pages/App/App.jsx';
-import AuthProvider from './context/AuthContext';
+import AuthProvider from './context/AuthContext.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
-import NavBar from './components/NavBar/NavBar';
-import CampaignDetail from './components/CampaignDetail.jsx';
-import PublishedCampaigns from './components/PublishedCampaigns.jsx';
 
+import PublishedCampaigns from './pages/PublishedCampaignsPage.jsx';
+import CampaignDetail from './pages/CampaignDetailPage.jsx';
+import CampaignList from './pages/CampaignListPage.jsx';
+import SignUp from './pages/SignUpPage/SignUpPage.jsx'; 
+import LogIn from './pages/LogInPage/LogInPage.jsx'; 
+import NewCampaign from './pages/NewCampaignPage.jsx';
+import Profile from './pages/ProfilePage.jsx';
+import Home from './pages/HomePage/HomePage.jsx';
+<pages></pages>
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+
+root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <Router>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LogInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route
-            path="/posts"
-            element={
-              <ProtectedRoute>
-                <PostListPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/posts/new"
-            element={
-              <ProtectedRoute>
-                <NewPostPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/campaigns/published" element={<PublishedCampaigns />} />
-          <Route path="/campaigns/:id" element={<CampaignDetail />} />
-          {/* other routes */}
-        </Routes>
-      </Router>
-    </AuthProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/campaigns" element={<CampaignList />} />
+            <Route path="/campaigns/published" element={<PublishedCampaigns />} />
+            <Route path="/campaigns/:id" element={<CampaignDetail />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/new-campaign" element={<NewCampaign />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* Removed duplicate Route path="/" */}
+          </Routes>
+        </Router>
+      </AuthProvider>
+  </React.StrictMode>
 );

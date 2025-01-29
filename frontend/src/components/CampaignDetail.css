@@ -1,0 +1,16 @@
+.campaign-detail {
+    padding: 20px;
+  }
+  
+  .campaign-detail h2 {
+    margin-bottom: 10px;
+  }
+  
+  .campaign-detail p {
+    margin-bottom: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    padding: 20px;
+  }

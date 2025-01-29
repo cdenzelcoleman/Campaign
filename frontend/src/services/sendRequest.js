@@ -1,24 +1,29 @@
-import { getToken } from './authService';
+const sendRequest = async (url, method, body = null, token = null) => {
+  const config = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 
-export default async function sendRequest(
-  url,
-  method = 'GET',
-  payload = null
-) {
-  const options = { method };
-  if (payload instanceof FormData) {
-    options.body = payload;
-  } else if (payload) {
-    options.headers = { 'Content-Type': 'application/json' };
-    options.body = JSON.stringify(payload);
+  if (body) {
+    config.body = JSON.stringify(body);
   }
-  const token = getToken();
+
   if (token) {
-    options.headers ||= {};
-    options.headers.Authorization = `Bearer ${token}`;
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
-  const res = await fetch(url, options);
-  if (res.ok) return res.json();
-  const err = await res.json();
-  throw new Error(err.message);
-}
+
+  try {
+    const response = await fetch(url, config);
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Something went wrong');
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export default sendRequest;

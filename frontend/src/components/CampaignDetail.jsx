@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  getCampaignById,
-  publishCampaign,
-  likeCampaign,
-} from '../services/campaignService';
-import CommentSection from './CommentSection';
-import { AuthContext } from '../context/AuthContext';
+import { getCampaignById } from '../services/campaignService';
+import { AuthContext } from '../context/AuthContext.jsx';
+import CommentSection from './CommentSection.jsx';
+import NarrativeGenerator from './NarrativeGenerator.jsx';
 import './CampaignDetail.css';
 
 const CampaignDetail = () => {
   const { id } = useParams();
-  const { user, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const [campaign, setCampaign] = useState(null);
   const [error, setError] = useState('');
 
@@ -21,60 +18,26 @@ const CampaignDetail = () => {
         const response = await getCampaignById(id);
         setCampaign(response.data);
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch campaign');
+        setError('Failed to load campaign details.');
       }
     };
     fetchCampaign();
   }, [id]);
 
-  const handlePublish = async () => {
-    try {
-      const response = await publishCampaign(id, token);
-      setCampaign(response.data.campaign);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to publish campaign');
-    }
-  };
-
-  const handleLike = async () => {
-    try {
-      const response = await likeCampaign(id, token);
-      setCampaign((prevCampaign) => ({
-        ...prevCampaign,
-        likes: response.data.likes, // Assuming backend returns the updated likes array
-      }));
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to like campaign');
-    }
-  };
-
-  if (!campaign) return <p>Loading...</p>;
-
-  const isOwner = user && campaign.createdBy === user.id; // Adjust based on your user object structure
+  if (error) return <p className="error-message">{error}</p>;
+  if (!campaign) return <p>Loading campaign details...</p>;
 
   return (
     <div className="campaign-detail">
-      <h1>{campaign.title}</h1>
+      <h2>{campaign.title}</h2>
       <p>{campaign.description}</p>
-      <p>Likes: {campaign.likes.length}</p>
-      {token && (
-        <>
-          <button onClick={handleLike} className="like-button">
-            Like
-          </button>
-          {isOwner && (
-            <button
-              onClick={handlePublish}
-              disabled={campaign.published}
-              className="publish-button"
-            >
-              {campaign.published ? 'Published' : 'Publish'}
-            </button>
-          )}
-        </>
-      )}
-      <CommentSection campaignId={id} comments={campaign.comments} />
-      {error && <p className="error-message">{error}</p>}
+      <p><strong>Status:</strong> {campaign.published ? 'Published' : 'Draft'}</p>
+      
+      {/* Narrative Generator */}
+      <NarrativeGenerator campaignId={id} token={token} />
+
+      {/* Comment Section */}
+      <CommentSection campaignId={id} token={token} />
     </div>
   );
 };

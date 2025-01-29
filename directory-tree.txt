@@ -40,14 +40,14 @@
 │   │   ├── components
 │   │   │   ├── CampaignDetail.css
 │   │   │   ├── CampaignDetail.jsx
+│   │   │   ├── CommentSection.css
 │   │   │   ├── CommentSection.jsx
 │   │   │   ├── NarrativeGenerator.css
 │   │   │   ├── NarrativeGenerator.jsx
 │   │   │   ├── NavBar
 │   │   │   │   ├── NavBar.css
 │   │   │   │   └── NavBar.jsx
-│   │   │   ├── ProtectedRoute.jsx
-│   │   │   └── PublishedCampaigns.jsx
+│   │   │   └── ProtectedRoute.jsx
 │   │   ├── context
 │   │   │   └── AuthContext.jsx
 │   │   ├── index.css
@@ -56,16 +56,17 @@
 │   │   │   ├── App
 │   │   │   │   ├── App.css
 │   │   │   │   └── App.jsx
+│   │   │   ├── CampaignDetailPage.jsx
+│   │   │   ├── CampaignListPage.css
+│   │   │   ├── CampaignListPage.jsx
 │   │   │   ├── HomePage
 │   │   │   │   ├── HomePage.css
 │   │   │   │   └── HomePage.jsx
 │   │   │   ├── LogInPage
 │   │   │   │   └── LogInPage.jsx
-│   │   │   ├── NewPostPage
-│   │   │   │   └── NewPostPage.jsx
-│   │   │   ├── PostListPage
-│   │   │   │   ├── PostListPage.css
-│   │   │   │   └── PostListPage.jsx
+│   │   │   ├── NewCampaignPage.jsx
+│   │   │   ├── ProfilePage.jsx
+│   │   │   ├── PublishedCampaignsPage.jsx
 │   │   │   └── SignUpPage
 │   │   │       └── SignUpPage.jsx
 │   │   └── services
@@ -76,4 +77,4 @@
 │   └── vite.config.js
 └── package-lock.json
 
-24 directories, 53 files
+22 directories, 56 files
