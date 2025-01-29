@@ -1,6 +1,6 @@
 import sendRequest from './sendRequest';
 
-const BASE_URL = '/api/auth';
+const API_URL = '/api/auth';
 
 export async function signUp(userData) {
   const token = await sendRequest(`${BASE_URL}/signup`, 'POST', userData);
@@ -33,3 +33,4 @@ export function getToken() {
   }
   return token;
 }
+

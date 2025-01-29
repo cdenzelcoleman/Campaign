@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getCurrentUser } from '../services/authService';
+import { getUser } from '../services/authService';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem('token');
+    const [token, setToken] = useState(localStorage.getItem('token'));
     const [ loading, setLoading] = useState(true);
 
     useEffect(() => {

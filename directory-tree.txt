@@ -38,10 +38,13 @@
 │   │   ├── assets
 │   │   │   └── react.svg
 │   │   ├── components
+│   │   │   ├── CampaignDetail.css
 │   │   │   ├── CampaignDetail.jsx
 │   │   │   ├── CommentSection.jsx
 │   │   │   ├── NarrativeGenerator.jsx
 │   │   │   ├── NavBar
+│   │   │   │   ├── NavBar.css
+│   │   │   │   └── NavBar.jsx
 │   │   │   └── PublishedCampaigns.jsx
 │   │   ├── context
 │   │   │   └── AuthContext.jsx
@@ -49,11 +52,19 @@
 │   │   ├── main.jsx
 │   │   ├── pages
 │   │   │   ├── App
+│   │   │   │   ├── App.css
+│   │   │   │   └── App.jsx
 │   │   │   ├── HomePage
+│   │   │   │   └── HomePage.jsx
 │   │   │   ├── LogInPage
+│   │   │   │   └── LogInPage.jsx
 │   │   │   ├── NewPostPage
+│   │   │   │   └── NewPostPage.jsx
 │   │   │   ├── PostListPage
+│   │   │   │   ├── PostListPage.css
+│   │   │   │   └── PostListPage.jsx
 │   │   │   └── SignUpPage
+│   │   │       └── SignUpPage.jsx
 │   │   └── services
 │   │       ├── authService.js
 │   │       ├── campaignService.js
@@ -62,4 +73,4 @@
 │   └── vite.config.js
 └── package-lock.json
 
-24 directories, 39 files
+24 directories, 50 files

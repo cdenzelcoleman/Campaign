@@ -1,21 +1,48 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes } from 'react-router';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AuthProvider from './context/AuthContext';
+import NavBar from './components/NavBar/NavBar';
 import CampaignDetail from './components/CampaignDetail.jsx';
-import { PublishCampaign } from './components/PublishCampaign.jsx';
-import './index.css';
-import App from './pages/App/App.jsx';
+import PublishedCampaigns from './components/PublishedCampaigns.jsx';
+import HomePage from './pages/HomePage/HomePage';
+import LogInPage from './pages/LogInPage/LogInPage';
+import SignUpPage from './pages/SignUpPage/SignUpPage';
+import PostListPage from './pages/PostListPage/PostListPage';
+import NewPostPage from './pages/NewPostPage/NewPostPage';
+import ProtectedRoute from './components/ProtectedRoute.jsx'; 
 
-React.Dom.render(
+ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        {/* routes */}
-        <Route path="/campaigns/:id" element={<CampaignDetail />} />
-        <Route path="/campaigns/:id/publish" element={<PublishCampaign />} />
-        {/* routes */}
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LogInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route
+            path="/posts"
+            element={
+              <ProtectedRoute>
+                <PostListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts/new"
+            element={
+              <ProtectedRoute>
+                <NewPostPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/campaigns/published" element={<PublishedCampaigns />} />
+          <Route path="/campaigns/:id" element={<CampaignDetail />} />
+          {/* other routes */}
+        </Routes>
+      </Router>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
