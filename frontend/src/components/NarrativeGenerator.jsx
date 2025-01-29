@@ -1,43 +1,51 @@
-import React, { useState } from 'react';
-import { generateNarative } from '../services/openaiService';
+import React, { useState, useContext } from 'react';
+import { generateNarrative } from '../services/openaiService';
+import { AuthContext } from '../context/AuthContext';
+import './NarrativeGenerator.css';
 
 const NarrativeGenerator = () => {
-    const [promt, setprompt] = useState('');
+    const [prompt, setPrompt] = useState('');
     const [narrative, setNarrative] = useState('');
     const [error, setError] = useState('');
-    const token = localStorage.getItem('token');
+    const { token } = useContext(AuthContext); 
 
     const handleGenerate = async (e) => {
         e.preventDefault();
-        if (!prompt) return;
+        if (!prompt.trim()) {
+            setError('Prompt cannot be empty.');
+            return;
+        }
 
         try {
-            const response = await generateNarative(prompt, token);
-            setNarrative(response.data.narrative);
+            setError(''); 
+            const response = await generateNarrative(prompt, token);
+            setNarrative(response.narrative);
         } catch (err) {
-            setError('Failed to generate narative');
+            console.error(err);
+            setError(err.response?.data?.message || 'Failed to generate narrative.');
         }
     };
 
     return (
-        <div>
-            <h2>Generate Narative</h2>
+        <div className="NarrativeGenerator">
+            <h2>Generate Narrative</h2>
             <form onSubmit={handleGenerate}>
                 <textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Enter a prompt"
-                required
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="Enter a prompt"
+                    required
+                    aria-label="Narrative Prompt"
                 />
                 <button type="submit">Generate</button>
             </form>
             {narrative && (
-                <div>
-                    <h3>Narative</h3>
+                <div className="NarrativeOutput">
+                    <h3>Narrative</h3>
                     <p>{narrative}</p>
                 </div>
             )}
-            error && <p style={{ color: 'red' }}>{error}</p>
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 };

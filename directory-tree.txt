@@ -45,6 +45,7 @@
 │   │   │   ├── NavBar
 │   │   │   │   ├── NavBar.css
 │   │   │   │   └── NavBar.jsx
+│   │   │   ├── ProtectedRoute.jsx
 │   │   │   └── PublishedCampaigns.jsx
 │   │   ├── context
 │   │   │   └── AuthContext.jsx
@@ -73,4 +74,4 @@
 │   └── vite.config.js
 └── package-lock.json
 
-24 directories, 50 files
+24 directories, 51 files
