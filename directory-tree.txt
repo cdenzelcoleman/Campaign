@@ -41,6 +41,7 @@
 │   │   │   ├── CampaignDetail.css
 │   │   │   ├── CampaignDetail.jsx
 │   │   │   ├── CommentSection.jsx
+│   │   │   ├── NarrativeGenerator.css
 │   │   │   ├── NarrativeGenerator.jsx
 │   │   │   ├── NavBar
 │   │   │   │   ├── NavBar.css
@@ -56,6 +57,7 @@
 │   │   │   │   ├── App.css
 │   │   │   │   └── App.jsx
 │   │   │   ├── HomePage
+│   │   │   │   ├── HomePage.css
 │   │   │   │   └── HomePage.jsx
 │   │   │   ├── LogInPage
 │   │   │   │   └── LogInPage.jsx
@@ -74,4 +76,4 @@
 │   └── vite.config.js
 └── package-lock.json
 
-24 directories, 51 files
+24 directories, 53 files

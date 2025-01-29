@@ -1,4 +1,5 @@
 import axios from 'axios';
+import sendRequest from './sendRequest';
 
 const API_URL = 'api/openai/';
 
