@@ -23,7 +23,6 @@ const CampaignListPage = () => {
 
   return (
     <div>
-      <NavBar />
       <h1>Your Campaigns</h1>
       {error && <p className="error-message">{error}</p>}
       <ul>

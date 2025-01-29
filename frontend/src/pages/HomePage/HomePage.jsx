@@ -1,13 +1,12 @@
 import React from 'react';
-import NavBar from '../../components/NavBar/NavBar.jsx';
+import './HomePage.css';
 
 const Home = () => {
   return (
-    <div>
-      <NavBar />
+    <main>
       <h1>Welcome to The Campaign</h1>
-      {/* Other content */}
-    </div>
+     
+    </main>
   );
 };
 
