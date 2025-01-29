@@ -1,13 +1,21 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router';
+import { BrowserRouter as Router, Routes } from 'react-router';
+import CampaignDetail from './components/CampaignDetail.jsx';
+import { PublishCampaign } from './components/PublishCampaign.jsx';
 import './index.css';
 import App from './pages/App/App.jsx';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+React.Dom.render(
+  <React.StrictMode>
     <Router>
-      <App />
+      <Routes>
+        {/* routes */}
+        <Route path="/campaigns/:id" element={<CampaignDetail />} />
+        <Route path="/campaigns/:id/publish" element={<PublishCampaign />} />
+        {/* routes */}
+      </Routes>
     </Router>
-  </StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 );

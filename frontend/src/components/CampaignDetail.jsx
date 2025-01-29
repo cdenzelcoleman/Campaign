@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCampaignById, likeCampaign, commentCampaign, publishCampaign } from '../services/campaignService';
+import { getCampaignById, publishCampaign, likeCampaign, addComment, getPublishedCampaigns } from '../services/campaignService';
 import CommentSection from './CommentSection';
+
 const authController = require('../controllers/auth');
 
-const CampaignDetail = () => {
+const CampaignDetail = ({campaignId, token}) => {
   const { id } = useParams();
   const [campaign, setCampaign] = useState(null);
   const [ error, setError ] = useState('');
@@ -20,7 +21,7 @@ const CampaignDetail = () => {
       }
     };
     fetchCampaign();
-  }, [id]);
+  }, [campaignId]);
 
   const handlePublish = async () => {
     try {
@@ -61,3 +62,5 @@ const CampaignDetail = () => {
   };
 
   export default CampaignDetail;
+
+  // check commit 16
