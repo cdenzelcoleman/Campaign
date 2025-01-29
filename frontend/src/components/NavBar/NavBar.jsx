@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './NavBar.css';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext.jsx';
 
 const NavBar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -15,7 +15,7 @@ const NavBar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/">Fantasy RPG</Link>
+        <Link to="/">The Campaign</Link>
       </div>
       <ul className="navbar-links">
         <li>
