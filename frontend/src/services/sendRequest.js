@@ -1,4 +1,6 @@
-const sendRequest = async (url, method, body = null, token = null) => {
+
+
+const sendRequest = async (endpoint, method = 'GET', data = null, token = null) => {
   const config = {
     method,
     headers: {
@@ -6,24 +8,23 @@ const sendRequest = async (url, method, body = null, token = null) => {
     },
   };
 
-  if (body) {
-    config.body = JSON.stringify(body);
+  if (data) {
+    config.body = JSON.stringify(data);
   }
 
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
 
-  try {
-    const response = await fetch(url, config);
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong');
-    }
-    return data;
-  } catch (error) {
-    throw error;
+  const response = await fetch(`/api${endpoint}`, config);
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    const error = responseData.message || 'Something went wrong!';
+    throw new Error(error);
   }
+
+  return responseData;
 };
 
 export default sendRequest;

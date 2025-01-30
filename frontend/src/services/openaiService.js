@@ -1,10 +1,5 @@
-import axios from 'axios';
 import sendRequest from './sendRequest';
 
-const API_URL = 'api/openai/';
-
-export const generateNarative = (prompt, token) => {
-    return axios.post(`$(API_URL)generate-narative`, {prompt}, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
+export const generateNarrative = async (prompt, token) => {
+  return await sendRequest('/openai/generate', 'POST', { prompt }, token);
 };

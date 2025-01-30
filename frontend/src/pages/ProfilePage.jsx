@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { getCurrentUser, updateUserProfile } from '../services/authService';
+import { updateUserProfile } from '../services/authService';
 import NavBar from '../components/NavBar/NavBar.jsx';
 
 const ProfilePage = () => {
@@ -14,10 +14,9 @@ const ProfilePage = () => {
     const fetchUser = async () => {
       if (token) {
         try {
-          const response = await getCurrentUser(token);
-          setUsername(response.data.username);
-          setEmail(response.data.email);
-          setUser(response.data); // Update user context if necessary
+          const response = await updateUserProfile({ username, email }, token);
+          setUser(response.data);
+         
         } catch (err) {
           setError('Failed to load user profile');
         }

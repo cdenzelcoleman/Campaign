@@ -1,34 +1,17 @@
-import sendRequest from './sendRequest.js';
+import sendRequest from './sendRequest';
 
-const getCampaigns = async (token) => {
-  return await sendRequest('/api/campaigns', 'GET', null, token);
+export const getCampaigns = async () => {
+  return await sendRequest('/campaigns');
 };
 
-const getPublishedCampaigns = async () => {
-  return await sendRequest('/api/campaigns/published', 'GET');
+export const getPublishedCampaigns = async () => {
+  return await sendRequest('/campaigns/published');
 };
 
-const getCampaignById = async (id) => {
-  return await sendRequest(`/api/campaigns/${id}`, 'GET');
+export const getCampaignDetail = async (id) => {
+  return await sendRequest(`/campaigns/${id}`);
 };
 
-const createCampaign = async (campaignData, token) => {
-  return await sendRequest('/api/campaigns', 'POST', campaignData, token);
-};
-
-const updateCampaign = async (id, campaignData, token) => {
-  return await sendRequest(`/api/campaigns/${id}`, 'PUT', campaignData, token);
-};
-
-const deleteCampaign = async (id, token) => {
-  return await sendRequest(`/api/campaigns/${id}`, 'DELETE', null, token);
-};
-
-export {
-  getCampaigns,
-  getPublishedCampaigns,
-  getCampaignById,
-  createCampaign,
-  updateCampaign,
-  deleteCampaign,
+export const createCampaign = async (campaignData, token) => {
+  return await sendRequest('/campaigns', 'POST', campaignData, token);
 };

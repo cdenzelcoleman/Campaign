@@ -1,26 +1,40 @@
 import sendRequest from './sendRequest';
 
-const API_URL = '/api/auth';
+const BASE_URL = '/api/auth';
 
 export async function signUp(userData) {
-  const token = await sendRequest(`${BASE_URL}/signup`, 'POST', userData);
-  localStorage.setItem('token', token);
-  return getUser();
+  const response = await sendRequest(`${BASE_URL}/signup`, 'POST', userData);
+  return response;
 }
 
 export async function logIn(credentials) {
-  const token = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);
-  localStorage.setItem('token', token);
-  return getUser();
+  const response = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);
+  return response; 
 }
 
 export function logOut() {
   localStorage.removeItem('token');
+  localStorage.removeItem('user');
 }
 
 export function getUser() {
   const token = getToken();
-  return token ? JSON.parse(atob(token.split('.')[1])).user : null;
+  if (!token) return null;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    if (payload.exp * 1000 < Date.now()) {
+      localStorage.removeItem('token');
+      return null;
+    }
+    return payload.user;
+  } catch (error) {
+    console.error('Failed to parse token:', error);
+    return null;
+  }
+}
+
+export function updateUserProfile(userData) {
+  return sendRequest(`${BASE_URL}/profile`, 'PATCH', userData, getToken());
 }
 
 export function getToken() {
@@ -33,13 +47,3 @@ export function getToken() {
   }
   return token;
 }
-
-const getCurrentUser = async (token) => {
-  return await sendRequest('/api/auth/user', 'GET', null, token);
-};
-
-const updateUserProfile = async (profileData, token) => {
-  return await sendRequest('/api/auth/profile', 'PUT', profileData, token);
-};
-
-export {  getCurrentUser, updateUserProfile };
