@@ -1,4 +1,29 @@
 import Campaign from '../models/Campaign.js';
+import { CHARACTERS } from '../constants/characters.js';
+
+export const createCampaign = async (req, res) => {
+  try {
+    const { title, description, character } = req.body;
+    const selectedCharacter = CHARACTERS.find((char) => char.id === characterId);
+    if (!selectedCharacter) {
+      return res.status(400).json({ error: 'Invalid character' });
+    }
+
+    const campaign = new Campaign({
+      title,
+      description,
+      character: selectedCharacter.name,
+      content: selectedCharacter.content,
+      owner: req.user.user._id,
+    });
+
+    await campaign.save();
+
+    res.status(201).json({campaign});
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getCampaigns = async (req, res) => {
   try {
