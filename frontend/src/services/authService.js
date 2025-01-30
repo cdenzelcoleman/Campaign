@@ -1,11 +1,15 @@
 import sendRequest from './sendRequest';
 
-const BASE_URL = 'auth';
+const BASE_URL = '/api/auth';
 
 export async function signUp(userData) {
+  console.log(userData);
   const response = await sendRequest(`${BASE_URL}/signup`, 'POST', userData);
   return response;
 }
+
+
+
 
 export async function logIn(credentials) {
   const response = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);

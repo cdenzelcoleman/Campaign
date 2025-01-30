@@ -1,5 +1,3 @@
-
-
 const sendRequest = async (endpoint, method = 'GET', data = null, token = null) => {
   const config = {
     method,
@@ -16,7 +14,7 @@ const sendRequest = async (endpoint, method = 'GET', data = null, token = null) 
     config.headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`/api${endpoint}`, config);
+  const response = await fetch(`/api/${endpoint}`, config);
   const responseData = await response.json();
 
   if (!response.ok) {

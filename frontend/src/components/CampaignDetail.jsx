@@ -33,10 +33,8 @@ const CampaignDetail = () => {
       <p>{campaign.description}</p>
       <p><strong>Status:</strong> {campaign.published ? 'Published' : 'Draft'}</p>
       
-      {/* Narrative Generator */}
       <NarrativeGenerator campaignId={id} token={token} />
 
-      {/* Comment Section */}
       <CommentSection campaignId={id} token={token} />
     </div>
   );

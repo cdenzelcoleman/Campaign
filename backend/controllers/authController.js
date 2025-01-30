@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 const generateToken = (user) => {
   return jwt.sign(
-    { userId: user._, email: user.email },
+    {user},
     process.env.JWT_SECRET,
     { expiresIn: '1h' }
   );
@@ -12,6 +12,7 @@ const generateToken = (user) => {
 
 
 export const signUp = async (req, res, next) => {
+  console.log(req.body);
   try {
     const { name, email, password } = req.body;
 
@@ -19,16 +20,8 @@ export const signUp = async (req, res, next) => {
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists.' });
     }
-const salt = await bcrypt.genSalt(10);
-const hashedPassword = await bcrypt.hash(password, salt);
-
-const user = new User({
-  name,
-  email,
-  password: hashedPassword,
-});
-
-await user.save();
+    
+const user = await User.create(req.body);
 
 const token = generateToken(user);
 

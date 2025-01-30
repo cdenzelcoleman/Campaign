@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
         return null;
       }
     }
-    
 
   useEffect(() => {
     const fetchUser = async () => {

@@ -18,7 +18,7 @@ export function checkToken(req, res, next) {
       return next();
     }
 
-    req.user = decoded.user;
+    req.user = decoded; 
     return next();
   });
 }

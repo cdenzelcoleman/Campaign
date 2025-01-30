@@ -4,7 +4,6 @@ const CampaignDetail = () => {
   return (
     <div>
       <h1>Campaign Detail</h1>
-      {/* Campaign details */}
     </div>
   );
 };

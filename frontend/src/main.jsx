@@ -14,7 +14,6 @@ import NewCampaign from './pages/NewCampaignPage.jsx';
 import Profile from './pages/ProfilePage.jsx';
 import Home from './pages/HomePage/HomePage.jsx';
 
-
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
