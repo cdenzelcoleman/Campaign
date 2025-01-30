@@ -1,0 +1,18 @@
+.campaign-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .campaign-detail-container h2 {
+    margin-bottom: 10px;
+  }
+  
+  .campaign-detail-container p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  
+  .error-message {
+    color: #dc3545;
+  }
