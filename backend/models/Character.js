@@ -19,4 +19,4 @@ const characterSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Character', characterSchema);
+export default mongoose.model('Character', characterSchema,);

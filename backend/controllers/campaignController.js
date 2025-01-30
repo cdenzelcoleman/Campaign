@@ -1,41 +1,83 @@
 import Campaign from '../models/Campaign.js';
 import { CHARACTERS } from '../constants/characters.js';
 
-export const createCampaign = async (req, res) => {
+export const createCampaign = async (req, res, next) => {
   try {
-    const { title, description, character } = req.body;
+    const { title, description, characterId } = req.body;
+
     const selectedCharacter = CHARACTERS.find((char) => char.id === characterId);
     if (!selectedCharacter) {
-      return res.status(400).json({ error: 'Invalid character' });
+      return res.status(400).json({ message: 'Invalid character selection.' });
     }
 
     const campaign = new Campaign({
       title,
       description,
       character: selectedCharacter.name,
-      content: selectedCharacter.content,
-      owner: req.user.user._id,
+      owner: req.user.userId,
     });
 
     await campaign.save();
 
-    res.status(201).json({campaign});
+    res.status(201).json({ campaign });
   } catch (error) {
     next(error);
   }
 };
 
-export const getCampaigns = async (req, res) => {
+export const getCampaigns = async (req, res, next) => {
   try {
-    const campaigns = await Campaign.find()
-      .populate('user', 'username email') 
-      .populate('likes', 'username email') 
-      .populate('comments.user', 'username email'); 
-
-    res.json(campaigns);
+    const campaigns = await Campaign.find({ owner: req.user.userId }).sort({ createdAt: -1 });
+    res.status(200).json({ campaigns });
   } catch (error) {
-    console.error('Get Campaigns Error:', error);
-    res.status(500).json({ error: 'Failed to fetch campaigns' });
+    next(error);
+  }
+};
+
+export const getCampaignById = async (req, res, next) => {
+  try {
+    const campaign = await Campaign.findById(req.params.id);
+    if (!campaign) {
+      return res.status(404).json({ message: 'Campaign not found.' });
+    }
+    if (campaign.owner.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'Access denied.' });
+    }
+    res.status(200).json({ campaign });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateCampaign = async (req, res, next) => {
+  try {
+    const { title, description, characterId } = req.body;
+
+    const campaign = await Campaign.findById(req.params.id);
+    if (!campaign) {
+      return res.status(404).json({ message: 'Campaign not found.' });
+    }
+
+    if (campaign.owner.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'Access denied.' });
+    }
+
+    if (characterId) {
+      const selectedCharacter = CHARACTERS.find((char) => char.id === characterId);
+      if (!selectedCharacter) {
+        return res.status(400).json({ message: 'Invalid character selection.' });
+      }
+      campaign.character = selectedCharacter.name;
+    }
+
+    if (title) campaign.title = title;
+    if (description) campaign.description = description;
+
+    await campaign.save();
+
+    res.status(200).json({ campaign });
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -62,6 +104,27 @@ export const publishCampaign = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const deleteCampaign = async (req, res, next) => {
+  try {
+    const campaign = await Campaign.findById(req.params.id);
+    if (!campaign) {
+      return res.status(404).json({ message: 'Campaign not found.' });
+    }  
+
+    // Ensure the user owns the campaign
+    if (campaign.owner.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'Access denied.' });
+    }  
+
+    await campaign.remove();
+
+    res.status(200).json({ message: 'Campaign deleted successfully.' });
+  } catch (error) {
+    next(error);
+  }  
+};  
+
 
 export const likeCampaign = async (req, res) => {
   try {
