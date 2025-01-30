@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
-import * as authService from '../../services/authService';
+// import * as authService from '../../services/authService';
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -22,7 +22,8 @@ export default function SignUpPage() {
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-    try {await signup(formData); 
+    try {
+      await signup(formData); 
       navigate('/');
     } catch (err) {
       console.log(err);

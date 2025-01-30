@@ -25,11 +25,13 @@ const LogInPage = () => {
 
     try {
       await login({ email, password });
-      navigate('/'); // Redirect to home after successful login
+      navigate('/'); 
     } catch (err) {
       setError(err.message);
     }
   };
+
+  const disable = !formData.email || !formData.password;
 
   return (
     <div className="login-container">
