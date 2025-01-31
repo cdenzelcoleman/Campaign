@@ -85,7 +85,7 @@ const NewCampaign = () => {
 
       const response = await createCampaign(campaignData);
       console.log(response);
-      navigate(`campaigns/${response.campaign._id}`);
+      navigate(`/campaigns/${response.campaign._id}`);
     } catch (error) {
       console.error('Failed to create campaign. Please try again.');
       console.error(error);

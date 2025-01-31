@@ -26,10 +26,10 @@ root.render(
             <Route index element={<Home />} />
             <Route path="campaigns" element={<CampaignList />} />
             <Route path="campaigns/published" element={<PublishedCampaigns />} />
+            <Route path="new-campaign" element={<NewCampaign />} />
             <Route path="campaigns/:id" element={<CampaignDetail />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
-            <Route path="new-campaign" element={<NewCampaign />} />
             <Route path="profile" element={<Profile />} />
           </Route>
           </Routes>

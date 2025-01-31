@@ -1,30 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-// export function checkToken(req, res, next) {
-//   console.log('Checking token...', req.get('Authorization'));
-//   let token = req.get('Authorization') || req.query.token;
-  
-  
-//   req.user = null;
-//   if (!token) {
-//     return next();
-//   }
-
-//   if (token.startsWith('Bearer ')) {
-//     token = token.slice(7, token.length).trimLeft();
-//   }
-
-//   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//     if (err) {
-//       req.user = null;
-//       return next();
-//     }
-
-//     req.user = decoded; 
-//     return next();
-//   });
-// }
-
 export function checkToken (req, res, next) {
   // Check for the token being sent in a header or as a query param
   console.log('Checking token...', req.get('Authorization'));
