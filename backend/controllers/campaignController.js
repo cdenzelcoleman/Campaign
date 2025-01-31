@@ -2,6 +2,7 @@ import Campaign from '../models/Campaign.js';
 import { CHARACTERS } from '../constants/characters.js';
 
 export const createCampaign = async (req, res, next) => {
+  console.log(req.body);
   try {
     const { title, description, characterId } = req.body;
 
@@ -14,7 +15,7 @@ export const createCampaign = async (req, res, next) => {
       title,
       description,
       character: selectedCharacter.name,
-      owner: req.user.userId,
+      owner: req.user._id,
     });
 
     await campaign.save();

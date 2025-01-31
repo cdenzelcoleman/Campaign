@@ -13,8 +13,10 @@ const sendRequest = async (endpoint, method = 'GET', data = null, token = null) 
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
+console.log(token);
 
-  const response = await fetch(`/api/${endpoint}`, config);
+  const response = await fetch(`/api${endpoint}`, config);
+  console.log(response);
   const responseData = await response.json();
 
   if (!response.ok) {
@@ -26,3 +28,5 @@ const sendRequest = async (endpoint, method = 'GET', data = null, token = null) 
 };
 
 export default sendRequest;
+
+

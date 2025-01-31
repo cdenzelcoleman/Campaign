@@ -38,11 +38,11 @@ const campaignSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  content: { 
-    type: String, 
-    required: true, 
-    trim: true 
-  },
+  // content: { 
+  //   type: String, 
+  //   required: true, 
+  //   trim: true 
+  // },
   isPublished: { 
     type: Boolean, 
     default: false 
@@ -55,11 +55,11 @@ const campaignSchema = new mongoose.Schema({
     ref: 'User' 
   }],
   comments: [commentSchema],
-  user: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
-  },
+  // user: { 
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   ref: 'User', 
+  //   required: true 
+  // },
 }, {
   timestamps: true,
   toJSON: {

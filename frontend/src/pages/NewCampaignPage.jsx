@@ -60,6 +60,7 @@ const NewCampaign = () => {
 
   const handleSelectCharacter = (characterId) => {
     setSelectedCharacterId(characterId);
+    console.log(characterId);
   };
 
   const handleSubmit =async (e) => {
@@ -72,18 +73,22 @@ const NewCampaign = () => {
 
     setIsSubmitting(true);
 
+    const campaignData = {
+      title: formData.title,
+      description: formData.description,
+      characterId: selectedCharacterId,
+    }; 
+    
+    console.log(campaignData);
+    
     try {
-      const campaignData = {
-        title: formData.title,
-        description: formData.description,
-        characterId: selectedCharacterId,
-      };
 
       const response = await createCampaign(campaignData);
-      navigate(`/campaigns/${response.campaign._id}`);
+      console.log(response);
+      navigate(`campaigns/${response.campaign._id}`);
     } catch (error) {
-      console.error(error);
       console.error('Failed to create campaign. Please try again.');
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -92,7 +97,7 @@ const NewCampaign = () => {
   return (
     <div className='new-campaign-container'>
       <h2>Create New Campaign</h2>
-      <form onSubmit={handleSubmit} classname='campaign-form'>
+      <form onSubmit={handleSubmit} className='campaign-form'>
         <div className='form-group'>
           <label htmlFor='title'>Campaign Title</label>
           <input

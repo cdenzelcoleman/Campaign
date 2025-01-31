@@ -1,6 +1,8 @@
 .
 ├── README.md
 ├── backend
+│   ├── constants
+│   │   └── characters.js
 │   ├── controllers
 │   │   ├── authController.js
 │   │   ├── campaignController.js
@@ -11,6 +13,7 @@
 │   │   └── errorHandler.js
 │   ├── models
 │   │   ├── Campaign.js
+│   │   ├── Character.js
 │   │   └── user.js
 │   ├── routes
 │   │   ├── auth.js
@@ -40,6 +43,8 @@
 │   │   ├── components
 │   │   │   ├── CampaignDetail.css
 │   │   │   ├── CampaignDetail.jsx
+│   │   │   ├── CharacterSelection.css
+│   │   │   ├── CharacterSelection.jsx
 │   │   │   ├── CommentSection.css
 │   │   │   ├── CommentSection.jsx
 │   │   │   ├── NarrativeGenerator.css
@@ -56,6 +61,7 @@
 │   │   │   ├── App
 │   │   │   │   ├── App.css
 │   │   │   │   └── App.jsx
+│   │   │   ├── CampaignDetailPage.css
 │   │   │   ├── CampaignDetailPage.jsx
 │   │   │   ├── CampaignListPage.css
 │   │   │   ├── CampaignListPage.jsx
@@ -64,6 +70,7 @@
 │   │   │   │   └── HomePage.jsx
 │   │   │   ├── LogInPage
 │   │   │   │   └── LogInPage.jsx
+│   │   │   ├── NewCampaignPage.css
 │   │   │   ├── NewCampaignPage.jsx
 │   │   │   ├── ProfilePage.jsx
 │   │   │   ├── PublishedCampaignsPage.jsx
@@ -77,4 +84,4 @@
 │   └── vite.config.js
 └── package-lock.json
 
-22 directories, 56 files
+23 directories, 62 files

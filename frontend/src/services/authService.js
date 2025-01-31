@@ -13,6 +13,8 @@ export async function signUp(userData) {
 
 export async function logIn(credentials) {
   const response = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);
+  console.log(response);
+
   return response; 
 }
 
@@ -38,7 +40,7 @@ export function getUser() {
 }
 
 export function updateUserProfile(userData) {
-  return sendRequest(`${BASE_URL}/profile`, 'PATCH', userData, getToken());
+  return sendRequest(`${BASE_URL}/profile`, 'PATCH', userData);
 }
 
 export function getToken() {
