@@ -8,7 +8,7 @@ import './CampaignDetail.css';
 import { generateNarrative } from '../services/openaiService.js';
 import { error } from 'winston';
 
-const CampaignDetail = () => {
+  const CampaignDetailPage = () => {
   const { id } = useParams();
   const { token } = useContext(AuthContext);
   const [campaign, setCampaign] = useState(null);

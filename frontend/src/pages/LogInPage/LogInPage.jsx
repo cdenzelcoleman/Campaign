@@ -1,71 +1,54 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import * as authService from '../../services/authService';
 
-const LogInPage = () => {
-  const { login } = useContext(AuthContext);
+export default function LogInPage() {
+  const [formData, setFormData] = useState({email: '',password: '',});
+  const [errorMsg, setErrorMsg] = useState('');
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  function handleChange(evt) {
+    setFormData({ ...formData, [evt.target.name]: evt.target.value });
+    setErrorMsg('');
+  }
 
-  const [error, setError] = useState('');
-
-  const { email, password } = formData;
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-
+  async function handleSubmit(evt) {
+    evt.preventDefault();
     try {
-      await login({ email, password });
-      navigate('/'); 
+      const user = await authService.logIn(formData);
+      setUser(user);
     } catch (err) {
-      setError(err.message);
+      console.log(err);
+      setErrorMsg('Log In Failed - Try Again');
     }
-  };
-
-  const disable = !formData.email || !formData.password;
+  }
 
   return (
-    <div className="login-container">
-      <h2>Log In</h2>
-      {error && <p className="error-msg">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-  
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-  
-        <button type="submit">Log In</button>
+    <>
+      <h2>Log In!</h2>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">LOG IN</button>
       </form>
-    </div>
+      <p className="error-message">&nbsp;{errorMsg}</p>
+    </>
   );
-};
-
-export default LogInPage;
+}

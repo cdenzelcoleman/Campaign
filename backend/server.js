@@ -11,7 +11,6 @@ import authRoutes from './routes/auth.js';
 import campaignRoutes from './routes/campaignRoutes.js';
 import openaiRoutes from './routes/openaiRoutes.js';
 import { checkToken } from './middleware/checkToken.js';
-import { errorHandler } from './middleware/errorHandler.js';
 
 
 const app = express();
@@ -35,8 +34,6 @@ app.use('/api/openai', openaiRoutes);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
-
-app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (err) => {

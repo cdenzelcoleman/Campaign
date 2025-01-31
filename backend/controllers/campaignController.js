@@ -10,15 +10,17 @@ export const createCampaign = async (req, res, next) => {
     if (!selectedCharacter) {
       return res.status(400).json({ message: 'Invalid character selection.' });
     }
-
-    const campaign = new Campaign({
+console.log(selectedCharacter,'selectedCharacter');
+console.log(req.user._id,'req.user._id');
+console.log(title,'title');
+console.log(description,'description');
+    const campaign = await Campaign.create({
       title,
       description,
       character: selectedCharacter.name,
       owner: req.user._id,
     });
-
-    await campaign.save();
+    console.log(campaign,'campaign');
 
     res.status(201).json({ campaign });
   } catch (error) {
@@ -28,7 +30,7 @@ export const createCampaign = async (req, res, next) => {
 
 export const getCampaigns = async (req, res, next) => {
   try {
-    const campaigns = await Campaign.find({ owner: req.user.userId }).sort({ createdAt: -1 });
+    const campaigns = await Campaign.find({ owner: req.user._id }).sort({ createdAt: -1 });
     res.status(200).json({ campaigns });
   } catch (error) {
     next(error);
@@ -36,12 +38,13 @@ export const getCampaigns = async (req, res, next) => {
 };
 
 export const getCampaignById = async (req, res, next) => {
+  console.log('getting campaign by Id')
   try {
     const campaign = await Campaign.findById(req.params.id);
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found.' });
     }
-    if (campaign.owner.toString() !== req.user.userId) {
+    if (campaign.owner.toString() !== req.user._id) {
       return res.status(403).json({ message: 'Access denied.' });
     }
     res.status(200).json({ campaign });
@@ -59,7 +62,7 @@ export const updateCampaign = async (req, res, next) => {
       return res.status(404).json({ message: 'Campaign not found.' });
     }
 
-    if (campaign.owner.toString() !== req.user.userId) {
+    if (campaign.owner.toString() !== req.user._id) {
       return res.status(403).json({ message: 'Access denied.' });
     }
 
@@ -114,7 +117,7 @@ export const deleteCampaign = async (req, res, next) => {
     }  
 
     // Ensure the user owns the campaign
-    if (campaign.owner.toString() !== req.user.userId) {
+    if (campaign.owner.toString() !== req.user._id) {
       return res.status(403).json({ message: 'Access denied.' });
     }  
 
@@ -132,7 +135,7 @@ export const likeCampaign = async (req, res) => {
     const campaign = await Campaign.findById(req.params.id);
     const userId = req.user._id;
 
-    if (campaign.likes.includes(userId)) {
+    if (campaign.likes.includes(_id)) {
       campaign.likes.pull(userId);
     } else {
       campaign.likes.push(userId);

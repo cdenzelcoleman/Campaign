@@ -57,32 +57,26 @@ const campaignSchema = new mongoose.Schema({
   comments: [commentSchema],
 }, {
   timestamps: true,
-  toJSON: {
-    transform: function (doc, ret) {
-      delete ret.__v;
-      return ret;
-    },
-    virtuals: true, 
-  },
+  
 });
 
-campaignSchema.index({ title: 'text' });
-campaignSchema.index({ owner: 1 });
-campaignSchema.index({ isPublished: 1 });
+// campaignSchema.index({ title: 'text' });
+// campaignSchema.index({ owner: 1 });
+// campaignSchema.index({ isPublished: 1 });
 
-campaignSchema.virtual('likeCount').get(function () {
-  return this.likes.length;
-});
+// campaignSchema.virtual('likeCount').get(function () {
+//   return this.likes.length;
+// });
 
-campaignSchema.virtual('commentCount').get(function () {
-  return this.comments.length;
-});
+// campaignSchema.virtual('commentCount').get(function () {
+//   return this.comments.length;
+// });
 
-campaignSchema.pre('save', function (next) {
-  if (this.isPublished && !this.publishedDate) {
-    this.publishedDate = Date.now();
-  }
-  next();
-});
+// campaignSchema.pre('save', function (next) {
+//   if (this.isPublished && !this.publishedDate) {
+//     this.publishedDate = Date.now();
+//   }
+//   next();
+// });
 
 export default mongoose.model('Campaign', campaignSchema);

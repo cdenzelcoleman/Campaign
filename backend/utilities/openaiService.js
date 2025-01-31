@@ -24,7 +24,7 @@ export const generateNarrative = async (prompt, context = '') => {
 
     return completion.choices[0].message.content;
   } catch (error) {
-    logger.error('OpenAI API Error:', error);
+    console.error('OpenAI API Error:', error);
     throw new Error('Failed to generate narrative. Please try again later.');
   }
 };

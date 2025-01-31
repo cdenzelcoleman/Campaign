@@ -4,13 +4,12 @@
 │   ├── constants
 │   │   └── characters.js
 │   ├── controllers
-│   │   ├── authController.js
+│   │   ├── auth.js
 │   │   ├── campaignController.js
 │   │   └── openaiController.js
 │   ├── middleware
 │   │   ├── checkToken.js
-│   │   ├── ensureLoggedIn.js
-│   │   └── errorHandler.js
+│   │   └── ensureLoggedIn.js
 │   ├── models
 │   │   ├── Campaign.js
 │   │   ├── Character.js
@@ -84,4 +83,4 @@
 │   └── vite.config.js
 └── package-lock.json
 
-23 directories, 62 files
+23 directories, 61 files

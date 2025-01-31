@@ -6,22 +6,30 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-
   function getUser() {
+    try {
       const token = localStorage.getItem('token');
       if (!token) return null;
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        if (payload.exp * 1000 < Date.now()) {
-          localStorage.removeItem('token');
-          return null;
-        }
-        return payload.user;
-      } catch (error) {
-        console.error('Failed to parse token:', error);
+      
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        console.error('Token is not in the correct JWT format.');
+        localStorage.removeItem('token');
         return null;
       }
+  
+      const payload = JSON.parse(atob(parts[1]));
+      if (payload.exp * 1000 < Date.now()) {
+        localStorage.removeItem('token');
+        return null;
+      }
+      return payload.user;
+    } catch (error) {
+      console.error('Failed to parse token:', error);
+      localStorage.removeItem('token');
+      return null;
     }
+  }
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -67,7 +75,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signup: handleSignup, login: handleLogin, logout }}>
+    <AuthContext.Provider value={{ user, setUser, signup: handleSignup, login: handleLogin, logout }}>
       {children}
     </AuthContext.Provider>
   );

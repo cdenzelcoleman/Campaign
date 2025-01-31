@@ -12,7 +12,10 @@ export function checkToken (req, res, next) {
   // Check if token is valid and not expired
   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
     // Invalid token if err
-    if (err) return next();
+    if (err) {
+      console.log('Invalid token:', err);
+      return next();
+    }
     // decoded is the entire token payload
     req.user = decoded.user;
     return next();

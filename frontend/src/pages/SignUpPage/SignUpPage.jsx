@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext.jsx';
-import { useNavigate } from 'react-router-dom';
-// import * as authService from '../../services/authService';
+import * as authService from '../../services/authService';
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -11,9 +10,7 @@ export default function SignUpPage() {
     confirm: '',
   });
   const [errorMsg, setErrorMsg] = useState('');
-
-  const navigate = useNavigate();
-  const { signup } = useContext(AuthContext);
+  const {setUser} = useContext(AuthContext);
 
   function handleChange(evt) {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -23,8 +20,8 @@ export default function SignUpPage() {
   async function handleSubmit(evt) {
     evt.preventDefault();
     try {
-      await signup(formData); 
-      navigate('/');
+      const user = await authService.signUp(formData);
+      setUser(user);
     } catch (err) {
       console.log(err);
       setErrorMsg('Sign Up Failed - Try Again');
