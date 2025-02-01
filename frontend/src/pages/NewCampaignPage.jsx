@@ -114,9 +114,10 @@ const NewCampaign = () => {
       };
       fetchCampaign();
     }
-  });
+  }, [id]);
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     if (!formData.title || !formData.description) {
       console.error('Required fields missing');
       return;
@@ -159,6 +160,7 @@ const NewCampaign = () => {
   };
   
   return (
+    <div className="new-campaign-page">
     <div className='new-campaign-container'>
       <h2>{isUpdating ? 'Update Campaign' : 'Create New Campaign'}</h2>
       <form onSubmit={isUpdating ? handleUpdate : handleSubmit}>
@@ -185,11 +187,14 @@ const NewCampaign = () => {
             rows='5'
             ></textarea>
         </div>
+
+        <div className='character-selection'>       
         <CharacterSelection
           characters={CHARACTERS}
           selectedCharacterId={selectedCharacterId}
           onSelectCharacter={handleSelectCharacter}
           />
+        </div>
         <button type='submit' disabled={isSubmitting}>
           {isSubmitting ? 'Creating Campaign...' : 'Create Campaign'}
         </button>
@@ -205,16 +210,8 @@ const NewCampaign = () => {
         )}
       </form>
     </div>
+    </div>
   );
 };
 
 export default NewCampaign;
-
-
-
-
-
-
-
-
-

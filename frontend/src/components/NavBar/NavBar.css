@@ -1,48 +1,90 @@
 .NavBar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 2vmin;
-  font-size: 2vmin;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  padding: 16px 32px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(255, 165, 0, 0.4); /* Subtle neon orange border */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  font-family: 'Orbitron', 'Arial', sans-serif;
 }
 
-.NavBar {
-  a {
-    border-radius: 0.8vmin;
-    padding: 0.5vmin 1.5vmin;
-    text-decoration: none;
-    color: #1a1a1a;
-  }
-
-  a:hover {
-    background-color: #1a1a1a;
-    color: whitesmoke;
-  }
-
-  a.active {
-    background-color: rebeccapurple;
-    color: whitesmoke;
-  }
-
-  span {
-    color: rgb(108, 9, 87);
-  }
+.NavBar-logo a {
+  color: #ffbe5c; 
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: 0 0 5px rgba(255, 190, 92, 0.7);
+  transition: color 0.3s, text-shadow 0.3s;
 }
-/* @media (max-width: 765px) {
+
+.NavBar-logo a:hover {
+  color: #ffd480;
+  text-shadow: 0 0 10px rgba(255, 212, 128, 0.8);
+}
+
+.NavBar-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.NavBar-links li {
+  display: inline-block;
+}
+
+.NavBar-links a {
+  color: #cdd0ff; 
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.NavBar-links a:hover,
+.NavBar-links a.active {
+  color: #fff;
+  border-color: #8257e5; 
+  box-shadow: 0 0 10px #8257e5, 0 0 20px #8257e5;
+}
+
+.NavBar-links button {
+  background: none;
+  color: #fc7adf;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #fc7adf;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.3s, box-shadow 0.3s, background 0.3s;
+}
+
+.NavBar-links button:hover {
+  color: #fff;
+  background: #fc7adf;
+  box-shadow: 0 0 10px #fc7adf, 0 0 20px #fc7adf;
+}
+
+@media (max-width: 768px) {
   .NavBar {
     flex-direction: column;
     align-items: flex-start;
+    padding: 10px 20px;
   }
 
-  .NavBar a,
-  .NavBar button,
-  .NarBar .welsome-message {
-    margin: 5px 0;
+  .NavBar-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 10px;
   }
-
-  .NavBar .welsome-message {
-    margin-left: 0;
-  }
-
-
-} */
+}

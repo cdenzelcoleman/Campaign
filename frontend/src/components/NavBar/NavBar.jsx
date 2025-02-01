@@ -1,61 +1,51 @@
-import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router';
+import { useContext} from 'react';
+import { logOut } from '../../services/authService';
 import './NavBar.css';
 import { AuthContext } from '../../context/AuthContext.jsx';
 
-const NavBar = () => {
-  const { user, logout } = useContext(AuthContext);
+export default function NavBar() {
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/'); 
-  };
+  function handleLogOut() {
+    logOut();
+    setUser(null);
+    navigate('/');
+  } 
 
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
+    <nav className="NavBar">
+      <div className="NavBar-logo">
         <Link to="/">The Campaign</Link>
       </div>
-      <ul className="navbar-links">
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/campaigns">Campaigns</Link>
-        </li>
-        <li>
-          <Link to="/campaigns/published">Published Campaigns</Link>
-        </li>
-        {user && (
+      <ul className="NavBar-links">
+        {user ? (
           <>
             <li>
-              <Link to="/new-campaign">New Campaign</Link>
+              <NavLink to="/campaigns">Campaigns</NavLink>
             </li>
             <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-          </>
-        )}
-        {!user ? (
-          <>
-            <li>
-              <Link to="/signup">Sign Up</Link>
+              <NavLink to="/new-campaign">New Campaign</NavLink>
             </li>
             <li>
-              <Link to="/login">Log In</Link>
+              <NavLink to="/profile">Profile</NavLink>
+            </li>
+            <li>
+              <button onClick={handleLogOut}>Log Out</button>
             </li>
           </>
         ) : (
-          <li>
-            <button className="logout-button" onClick={handleLogout}>
-              Log Out
-            </button>
-          </li>
+          <>
+            <li>
+              <NavLink to="/signup">Sign Up</NavLink>
+            </li>
+            <li>
+              <NavLink to="/login">Log In</NavLink>
+            </li>
+          </>
         )}
       </ul>
     </nav>
   );
-};
-
-export default NavBar;
+}

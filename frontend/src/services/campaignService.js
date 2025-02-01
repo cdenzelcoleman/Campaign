@@ -24,12 +24,16 @@ export const getCampaignById = async (id) => {
 };
 
 export const updateCampaign = async (id, updatedData) => {
+  console.log('updating campaign', id, updatedData);
   const response = await sendRequest(`${BASE_URL}/${id}`, 'PATCH', updatedData);
+  console.log('Update Response:', response);
   return response;
 };
 
 export const deleteCampaign = async (id) => {
+  console.log('deleting campaign', id);
   const response = await sendRequest(`${BASE_URL}/${id}`, 'DELETE');
+  console.log('Delete Response:', response);
   return response;
 };
 
