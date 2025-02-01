@@ -1,9 +1,8 @@
 import React, {useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CharacterSelection from '../components/CharacterSelection.jsx';
-import { createCampaign } from '../services/campaignService.js';
+import { createCampaign, updateCampaign, deleteCampaign } from '../services/campaignService';
 import './NewCampaignPage.css';
-import { set } from 'mongoose';
 
 const CHARACTERS = [
   {
@@ -41,12 +40,13 @@ const CHARACTERS = [
 
 const NewCampaign = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-  });
+  const { id } = useParams();
+  const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [formData, setFormData] = useState({ title: '', description: '', characterId: '' });
 
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
+
   const [selectedCharacterId, setSelectedCharacterId] = useState(null);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,24 +93,86 @@ const NewCampaign = () => {
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      setIsUpdating(true);
+      const fetchCampaign = async () => {
+        try {
+          const response = await getCampaignById(id);
+          setFormData({
+            title: response.campaign.title,
+            description: response.campaign.description,
+          });
+          setSelectedCharacterId(response.campaign.characterId);
+        } catch (error) {
+          console.error('Failed to load campaign details.');
+          console.error(error);
+        } finally {
+          setIsUpdating(false);
+        }
+      };
+      fetchCampaign();
+    }
+  });
+
+  const handleUpdate = async () => {
+    if (!formData.title || !formData.description) {
+      console.error('Required fields missing');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const updatedData = {
+      title: formData.title,
+      description: formData.description,
+      characterId: selectedCharacterId,
+    };
+
+    try {
+      await updateCampaign(id, updatedData);
+      navigate(`/campaigns/${id}`);
+    } catch (error) {
+      console.error('Failed to update campaign. Please try again.');
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCancel = () => {
+    navigate(`/campaigns/${id}`);
+  };
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteCampaign(id);
+      navigate('/campaigns');
+    } catch (error) {
+      console.error('Failed to delete campaign. Please try again.');
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
   
   return (
     <div className='new-campaign-container'>
-      <h2>Create New Campaign</h2>
-      <form onSubmit={handleSubmit} className='campaign-form'>
+      <h2>{isUpdating ? 'Update Campaign' : 'Create New Campaign'}</h2>
+      <form onSubmit={isUpdating ? handleUpdate : handleSubmit}>
         <div className='form-group'>
           <label htmlFor='title'>Campaign Title</label>
           <input
-            type='text'
             id='title'
             name='title'
             value={formData.title}
             onChange={handleChange}
             required
-            placeholder='Campaign Title?'
+            placeholder='Campaign Title'
             />
         </div>
-
         <div className='form-group'>
           <label htmlFor='description'>Campaign Description</label>
           <textarea
@@ -123,19 +185,36 @@ const NewCampaign = () => {
             rows='5'
             ></textarea>
         </div>
-
         <CharacterSelection
           characters={CHARACTERS}
           selectedCharacterId={selectedCharacterId}
           onSelectCharacter={handleSelectCharacter}
           />
-
         <button type='submit' disabled={isSubmitting}>
           {isSubmitting ? 'Creating Campaign...' : 'Create Campaign'}
         </button>
+        {isUpdating && (
+          <>
+            <button type='button' onClick={handleCancel}>
+              Cancel
+            </button>
+            <button type='button' onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? 'Deleting Campaign...' : 'Delete Campaign'}
+            </button>
+          </>
+        )}
       </form>
     </div>
   );
 };
 
 export default NewCampaign;
+
+
+
+
+
+
+
+
+
