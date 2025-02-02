@@ -8,10 +8,10 @@ const CharacterSelection = ({ characters, selectedCharacterId, onSelectCharacter
             <div className='character-grid'>
                 {characters.map((character) =>(
                     < div
-                    key={character.id}
-                    className={`character-card ${selectedCharacterId === character.id ? 'selected' : ''}`}
-                    onClick={() => onSelectCharacter(character.id)}
-                    ><img src={character.image} alt={character.name} />
+                    key={character._id}
+                    className={`character-card ${selectedCharacterId === character._id ? 'selected' : ''}`}
+                    onClick={() => onSelectCharacter(character._id)}
+                    ><img src={character?.image} alt={character.name} />
                         {/* <h3><p><strong>Name:</strong>{character.name}</p></h3> */}
                         <h4>{character.role}</h4>
                         <p>{character.description}</p>
@@ -25,7 +25,7 @@ const CharacterSelection = ({ characters, selectedCharacterId, onSelectCharacter
 
 CharacterSelection.propTypes ={
     characters: PropTypes.array.isRequired,
-    selectedCharacterId: PropTypes.number,
+    selectedCharacterId: PropTypes.string,
     onSelectCharacter: PropTypes.func.isRequired,
 };
 

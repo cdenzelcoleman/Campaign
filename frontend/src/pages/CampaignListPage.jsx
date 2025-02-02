@@ -26,7 +26,7 @@ const CampaignListPage = () => {
       <h1>Your Campaigns</h1>
       {error && <p className="error-message">{error}</p>}
       <ul>
-        {campaigns.map((campaign) => (
+        {campaigns?.map((campaign) => (
           <li key={campaign._id}>
             <Link to={`/campaigns/${campaign._id}`}>{campaign.title}</Link> {campaign.published ? '(Published)' : '(Draft)'}
           </li>

@@ -30,10 +30,9 @@ const campaignSchema = new mongoose.Schema({
     required: true,
   },
   character: {
-    type: String, 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Character',
     required: true,
-    trim: true,
-    maxlength: 100,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

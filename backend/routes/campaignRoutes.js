@@ -7,12 +7,16 @@ import {
   publishCampaign,
   deleteCampaign,
   likeCampaign,
+  deleteAllCampaign,
   addComment,
 } from '../controllers/campaignController.js';
+
+
 import { ensureLoggedIn } from '../middleware/ensureLoggedIn.js';
 
 const router = express.Router();
 
+router.delete('/all', deleteAllCampaign);
 router.post('/', ensureLoggedIn, createCampaign);
 router.get('/:id', ensureLoggedIn, getCampaignById);
 router.put('/:id', ensureLoggedIn, updateCampaign);

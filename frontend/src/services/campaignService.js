@@ -25,7 +25,7 @@ export const getCampaignById = async (id) => {
 
 export const updateCampaign = async (id, updatedData) => {
   console.log('updating campaign', id, updatedData);
-  const response = await sendRequest(`${BASE_URL}/${id}`, 'PATCH', updatedData);
+  const response = await sendRequest(`${BASE_URL}/${id}`, 'PUT', updatedData);
   console.log('Update Response:', response);
   return response;
 };
@@ -60,4 +60,3 @@ export function getToken() {
   }
   return token;
 }
-

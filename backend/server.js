@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import connectDB from './utilities/db.js';
 import authRoutes from './routes/auth.js';
 import campaignRoutes from './routes/campaignRoutes.js';
+import characterRoutes from './routes/characterRoutes.js';
 import openaiRoutes from './routes/openaiRoutes.js';
 import { checkToken } from './middleware/checkToken.js';
 
@@ -29,6 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use(checkToken);
 
 app.use('/api/campaigns', campaignRoutes);
+app.use('/api/characters', characterRoutes);
 app.use('/api/openai', openaiRoutes);
 
 app.get('*', (req, res) => {
