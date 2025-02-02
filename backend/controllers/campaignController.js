@@ -48,9 +48,8 @@ export const getCampaignById = async (req, res, next) => {
 
 export const updateCampaign = async (req, res, next) => {
   try {
-    const { title, description, character} = req.body;
-
-    const campaign = await Campaign.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('owner','character');
+    const campaign = await Campaign.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('owner');
+    await campaign.populate('character');
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found.' });
     }
@@ -63,8 +62,8 @@ export const updateCampaign = async (req, res, next) => {
 
 export const publishCampaign = async (req, res) => {
   try {
-    const campaign = await Campaign.findById(req.params.id).populate('owner','character');
-
+    const campaign = await Campaign.findById(req.params.id).populate('owner');
+    await campaign.populate('character');
     if (campaign.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Unauthorized to publish this campaign' });
     }
@@ -92,14 +91,6 @@ export const deleteCampaign = async (req, res, next) => {
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found.' });
     }  
-
-    
-
-    // Ensure the user owns the campaign
-    // if (campaign.owner.toString() !== req.user._id) {
-    //   return res.status(403).json({ message: 'Access denied.' });
-    // }  
-
 
     res.status(200).json({ message: 'Campaign deleted successfully.' });
   } catch (error) {

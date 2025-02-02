@@ -23,6 +23,7 @@ const CampaignDetailPage = () => {
       try {
         const campaign = await getCampaignById(id);
         console.log({campaign});
+        setFormData({ title: campaign?.title , description: campaign?.description, character: campaign?.character })
         setCampaign(campaign);
       } catch (err) {
         console.error(err);
@@ -55,7 +56,8 @@ const CampaignDetailPage = () => {
     }
 
     try {
-      if (campaign.owner !== user._id) {
+      if (campaign.owner._id !== user._id) {
+        console.log({owner: campaign.owner, user});
         setError('Unauthorized to edit this campaign');
         return;
       }
@@ -85,7 +87,7 @@ const CampaignDetailPage = () => {
 const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      if (campaign.owner !== user._id) {
+      if (campaign.owner._id !== user._id) {
         setError('Unauthorized to delete this campaign');
         return;
       }
@@ -111,6 +113,8 @@ const handleDelete = async () => {
       <h2>{campaign.title}</h2>
       <p><strong>Character:</strong> {campaign.character.name}</p>
       <p><strong>Description:</strong> {campaign.character.description}</p>
+      <p><strong>Campaign Title:</strong>{campaign.title}</p>
+      <p><strong>Campaign Description:</strong> {campaign.description}</p>
       <button type='button' onClick={handleDelete} disabled={isDeleting}>
               {isDeleting ? 'Deleting Campaign...' : 'Delete Campaign'}
             </button>
