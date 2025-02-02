@@ -111,6 +111,7 @@ const handleDelete = async () => {
   return (
     <div className="campaign-detail-container">
       <h2>{campaign.title}</h2>
+      <p><img src={campaign.character.image} alt={campaign.character.name} /></p>
       <p><strong>Character:</strong> {campaign.character.name}</p>
       <p><strong>Description:</strong> {campaign.character.description}</p>
       <p><strong>Campaign Title:</strong>{campaign.title}</p>
@@ -160,6 +161,15 @@ const handleDelete = async () => {
                     </button>
                   </form>
             )}
+             {/* <div className="narrative-section">
+      {loadingNarrative && <p>Your adventure continues...</p>}
+      {narrative && (
+        <div>
+          <p>{narrative}</p>
+          <h3>What will you do?</h3>
+        </div>
+      )}
+    </div> */}
     </div>
   );
 };
