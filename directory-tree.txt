@@ -6,10 +6,12 @@
 │   ├── controllers
 │   │   ├── auth.js
 │   │   ├── campaignController.js
+│   │   ├── characterController.js
 │   │   └── openaiController.js
 │   ├── middleware
 │   │   ├── checkToken.js
-│   │   └── ensureLoggedIn.js
+│   │   ├── ensureLoggedIn.js
+│   │   └── errorHandler.js
 │   ├── models
 │   │   ├── Campaign.js
 │   │   ├── Character.js
@@ -17,6 +19,7 @@
 │   ├── routes
 │   │   ├── auth.js
 │   │   ├── campaignRoutes.js
+│   │   ├── characterRoutes.js
 │   │   ├── openaiRoutes.js
 │   │   └── posts.js
 │   ├── server.js
@@ -37,6 +40,7 @@
 │   ├── public
 │   │   └── vite.svg
 │   ├── src
+│   │   ├── Utils.js
 │   │   ├── assets
 │   │   │   └── react.svg
 │   │   ├── components
@@ -68,19 +72,23 @@
 │   │   │   │   ├── HomePage.css
 │   │   │   │   └── HomePage.jsx
 │   │   │   ├── LogInPage
+│   │   │   │   ├── LogInPage.css
 │   │   │   │   └── LogInPage.jsx
 │   │   │   ├── NewCampaignPage.css
 │   │   │   ├── NewCampaignPage.jsx
+│   │   │   ├── ProfilePage.css
 │   │   │   ├── ProfilePage.jsx
 │   │   │   ├── PublishedCampaignsPage.jsx
 │   │   │   └── SignUpPage
+│   │   │       ├── SignUpPage.css
 │   │   │       └── SignUpPage.jsx
 │   │   └── services
 │   │       ├── authService.js
 │   │       ├── campaignService.js
+│   │       ├── characterService.js
 │   │       ├── openaiService.js
 │   │       └── sendRequest.js
 │   └── vite.config.js
 └── package-lock.json
 
-23 directories, 61 files
+23 directories, 69 files

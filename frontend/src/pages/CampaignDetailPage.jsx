@@ -12,7 +12,9 @@ const CampaignDetailPage = () => {
   const navigate = useNavigate();
   const [campaign, setCampaign] = useState(null);
   const { user } = useContext(AuthContext);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
+  const [loadingNarrative, setLoadingNarrative] = useState(false);
+  const [narrative, setNarrative] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
    const [formData, setFormData] = useState({ title: campaign?.title , description: campaign?.description, character: campaign?.character });
@@ -100,6 +102,23 @@ const handleDelete = async () => {
     }
   };
 
+  const handleStartCampaign = async () => {
+    setLoadingNarrative(true);
+    try {
+      if(campaign.owner._id !== user._id) {
+        setError('Unauthorized to start this campaign');
+        return;
+      }
+     await startCampaign(id);
+     navigate(`/campaigns/${id}/narrative`);
+    } catch (error) {
+      console.error('Failed to start campaign. Please try again.',error);
+    } finally {
+      setLoadingNarrative(false);
+    }
+  };
+
+
   if (error) {
     return <p className="error-message">{error}</p>;
   }
@@ -116,13 +135,22 @@ const handleDelete = async () => {
       <p><strong>Description:</strong> {campaign.character.description}</p>
       <p><strong>Campaign Title:</strong>{campaign.title}</p>
       <p><strong>Campaign Description:</strong> {campaign.description}</p>
-      <button type='button' onClick={handleDelete} disabled={isDeleting}>
-              {isDeleting ? 'Deleting Campaign...' : 'Delete Campaign'}
-            </button>
+            <button type='button' onClick={handleStartCampaign}>
+        Start Your Adventure
+      </button>
             <button type='button' onClick={handleisUpdating}>
               {isUpdating ? 'Cancel' : 'Edit'}
             </button>
-            
+      <button type='button' onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? 'Deleting Campaign...' : 'Delete'}
+            </button>
+            {loadingNarrative && <p>Your adventure is loading...</p>}
+            {narrative && (
+            <div className="narrative-section">
+            <p>{narrative}</p>
+            <h3>What will you do?</h3>
+            </div>
+            )}
             {isUpdating && campaign && (
               <form onSubmit={handleUpdate}>
                     <div className='form-group'>
@@ -159,17 +187,9 @@ const handleDelete = async () => {
                     <button type='submit'>
                       Edit Campaign
                     </button>
+                    
                   </form>
-            )}
-             {/* <div className="narrative-section">
-      {loadingNarrative && <p>Your adventure continues...</p>}
-      {narrative && (
-        <div>
-          <p>{narrative}</p>
-          <h3>What will you do?</h3>
-        </div>
-      )}
-    </div> */}
+            )}  
     </div>
   );
 };

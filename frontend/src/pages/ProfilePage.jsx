@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { updateUserProfile } from '../services/authService';
-import NavBar from '../components/NavBar/NavBar.jsx';
+import './ProfilePage.css';
 
 const ProfilePage = () => {
   const { user, token, setUser } = useContext(AuthContext);
@@ -37,12 +37,15 @@ const ProfilePage = () => {
   };
 
   return (
+    <>
+    <div className='profile-container-page'>
     <div>
-      <NavBar />
-      <h1>Your Profile</h1>
+      <div className='profile-container'>
+      <h2>Your Profile</h2>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
       <form onSubmit={handleSubmit}>
+          <div className='form-group'>
         <div>
           <label htmlFor="username">Username:</label>
           <input
@@ -53,7 +56,9 @@ const ProfilePage = () => {
             required
             aria-label="Username"
           />
+          </div>
         </div>
+          <div className='form-group'>      
         <div>
           <label htmlFor="email">Email:</label>
           <input
@@ -64,10 +69,14 @@ const ProfilePage = () => {
             required
             aria-label="Email"
           />
+          </div>
         </div>
         <button type="submit">Update Profile</button>
       </form>
+      </div>
     </div>
+    </div>
+    </>
   );
 };
 

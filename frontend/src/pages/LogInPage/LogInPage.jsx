@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import * as authService from '../../services/authService';
+import './LogInPage.css';
 
 export default function LogInPage() {
   const [formData, setFormData] = useState({email: '',password: '',});
@@ -19,6 +20,7 @@ export default function LogInPage() {
     evt.preventDefault();
     try {
       const user = await authService.logIn(formData);
+      navigate('/');
       setUser(user);
     } catch (err) {
       console.log(err);
@@ -27,9 +29,11 @@ export default function LogInPage() {
   }
 
   return (
+    <div className="login-container">
     <>
       <h2>Log In!</h2>
       <form autoComplete="off" onSubmit={handleSubmit}>
+        <div className="form-group">
         <label>Email</label>
         <input
           type="email"
@@ -38,6 +42,8 @@ export default function LogInPage() {
           onChange={handleChange}
           required
         />
+        </div>
+        <div className="form-group">
         <label>Password</label>
         <input
           type="password"
@@ -46,9 +52,11 @@ export default function LogInPage() {
           onChange={handleChange}
           required
         />
+        </div>
         <button type="submit">LOG IN</button>
       </form>
       <p className="error-message">&nbsp;{errorMsg}</p>
     </>
+    </div>
   );
 }

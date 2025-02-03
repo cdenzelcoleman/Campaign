@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { getCampaigns } from '../services/campaignService';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import NavBar from '../components/NavBar/NavBar.jsx';
+import './CampaignListPage.css';
 
 const CampaignListPage = () => {
   const { token } = useContext(AuthContext);
