@@ -8,7 +8,6 @@ import {
 const router = express.Router();
 
 router.post('/', createCharacters);
-// router.get('/:id', getCharacterById);
 router.get('/', getCharacters);
 
 export default router;

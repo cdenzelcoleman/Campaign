@@ -45,7 +45,7 @@ const CampaignDetailPage = () => {
 
     fetchCampaign();
   }, [id]);
-
+  
   const handleisUpdating = () => {
     setIsUpdating(!isUpdating);
   };

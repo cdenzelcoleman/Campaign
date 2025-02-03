@@ -10,7 +10,7 @@ export const generateNarrative = async (prompt, context = '') => {
       messages: [
         { 
           role: 'system', 
-          content: 'You are a fantasy RPG game master. Respond in 2-3 sentences.' 
+          content: 'You are a fantasy RPG game master. Respond in 2-10 sentences.' 
         },
         { 
           role: 'user', 

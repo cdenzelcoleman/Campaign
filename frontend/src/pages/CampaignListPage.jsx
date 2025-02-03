@@ -13,7 +13,7 @@ const CampaignListPage = () => {
     const fetchCampaigns = async () => {
       try {
         const response = await getCampaigns(token);
-        setCampaigns(response.data);
+        setCampaigns(response.campaigns);
       } catch (err) {
         setError('Failed to load campaigns');
       }
@@ -22,16 +22,25 @@ const CampaignListPage = () => {
   }, [token]);
 
   return (
-    <div>
-      <h1>Your Campaigns</h1>
-      {error && <p className="error-message">{error}</p>}
-      <ul>
-        {campaigns?.map((campaign) => (
-          <li key={campaign._id}>
-            <Link to={`/campaigns/${campaign._id}`}>{campaign.title}</Link> {campaign.published ? '(Published)' : '(Draft)'}
-          </li>
-        ))}
-      </ul>
+    <div className="campaign-list-container">
+      <h2>Your Campaigns</h2>
+      {campaigns.length === 0 ? (
+        <p>
+          You have not created any campaigns yet. Click{' '}
+          <Link to="/new-campaign">here</Link> to create one.
+        </p>
+      ) : (
+        <ul className="campaign-list">
+          {campaigns.map((campaign) => (
+            <li key={campaign._id} className="campaign-item">
+              <Link to={`/campaigns/${campaign._id}`}>
+                <h3>{campaign.title}</h3>
+                <p>{campaign.description}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
