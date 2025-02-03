@@ -1,5 +1,5 @@
 import sendRequest from './sendRequest';
 
-export const generateNarrative = async (prompt, token) => {
-  return await sendRequest('/openai/generate', 'POST', { prompt }, token);
-};
+export async function generateNarrative(campaignId, prompt) {
+  return await sendRequest('/api/openai/generate', 'POST', { campaignId, prompt });
+}

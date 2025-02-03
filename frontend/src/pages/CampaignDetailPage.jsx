@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router';
 import { getCampaignById, deleteCampaign, updateCampaign } from '../services/campaignService.js';
 import CharacterSelection from '../components/CharacterSelection.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
-import { CHARACTERS } from '../Utils.js';
 import { getCharacters } from '../services/characterService';
+import { generateNarrative } from '../services/openaiService.js';
 import './CampaignDetailPage.css'; 
 
 const CampaignDetailPage = () => {
@@ -103,16 +103,18 @@ const handleDelete = async () => {
   };
 
   const handleStartCampaign = async () => {
-    setLoadingNarrative(true);
     try {
-      if(campaign.owner._id !== user._id) {
+      if (campaign.owner._id !== user._id) {
         setError('Unauthorized to start this campaign');
         return;
       }
-     await startCampaign(id);
-     navigate(`/campaigns/${id}/narrative`);
+      setLoadingNarrative(true);
+      const text = await generateNarrative(campaign._Id);
+      setNarrative(text);
     } catch (error) {
-      console.error('Failed to start campaign. Please try again.',error);
+      console.error('Failed to generate narrative. Please try again.');
+      console.error(error);
+      setError('Failed to generate narrative. Please try again.');
     } finally {
       setLoadingNarrative(false);
     }
@@ -147,7 +149,7 @@ const handleDelete = async () => {
             {loadingNarrative && <p>Your adventure is loading...</p>}
             {narrative && (
             <div className="narrative-section">
-            <p>{narrative}</p>
+            <p>{narrative.narrative}</p>
             <h3>What will you do?</h3>
             </div>
             )}
