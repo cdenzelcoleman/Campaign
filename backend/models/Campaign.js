@@ -49,6 +49,7 @@ const campaignSchema = new mongoose.Schema({
       return this.isPublished ? Date.now() : null;
     },
   },
+
   likes: [{ 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User' 
@@ -61,3 +62,5 @@ const campaignSchema = new mongoose.Schema({
 
 
 export default mongoose.model('Campaign', campaignSchema);
+
+// diaolog response, Array?Embedded model?
