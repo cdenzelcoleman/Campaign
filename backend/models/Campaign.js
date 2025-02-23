@@ -19,7 +19,7 @@ const commentSchema = new mongoose.Schema({
 });
 
 const campaignSchema = new mongoose.Schema({
-  title: { 
+  title: {  
     type: String, 
     required: true, 
     trim: true, 
@@ -55,11 +55,16 @@ const campaignSchema = new mongoose.Schema({
     ref: 'User' 
   }],
   comments: [commentSchema],
+  conversationsHistory: [{
+    role: { 
+      type: String, 
+      enum: ['system', 'user', 'assistant'], required: true },
+      content: { type: String, required: true }
+  }],
 }, {
   timestamps: true,
-  
-});
 
+});
 
 export default mongoose.model('Campaign', campaignSchema);
 
