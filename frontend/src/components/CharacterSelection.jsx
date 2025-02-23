@@ -12,11 +12,16 @@ const CharacterSelection = ({ characters, selectedCharacterId, onSelectCharacter
             key={character._id}
             className={`character-card ${selectedCharacterId === character._id ? 'selected' : ''}`}
             onClick={() => onSelectCharacter(character._id)}
-          ><img className="character-image"
+          ><img
               src={character.image}
               alt={`${character.role} - ${character.name}`}
-            /><h4>{character.role}</h4>
-            <p>{character.description}</p>
+               className="character-image"
+            />
+            <h4>{character.role}</h4>
+            <p><strong>{character.name}</strong></p>
+            <div className="character-description">
+            {character.description}
+            </div>
             </div>
         ))}
         </div>
