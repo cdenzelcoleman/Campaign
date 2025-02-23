@@ -1,5 +1,4 @@
 import Campaign from '../models/Campaign.js';
-import { CHARACTERS } from '../constants/characters.js';
 
 export const createCampaign = async (req, res, next) => {
   console.log(req.body);

@@ -9,15 +9,12 @@ import './NewCampaignPage.css';
 const NewCampaign = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [formData, setFormData] = useState({ title: '', description: '', characterId: ''});
   const [characters, setCharacters] = useState([]);
 
 
   const [selectedCharacterId, setSelectedCharacterId] = useState(null);
-  const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
