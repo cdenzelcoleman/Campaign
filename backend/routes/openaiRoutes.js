@@ -1,6 +1,7 @@
 import express from 'express';
-import { generateNarrative } from '../utilities/openaiService.js';
+// import { generateNarrative } from '../controllers/openaiController.js';
 import { ensureLoggedIn } from '../middleware/ensureLoggedIn.js';
+import { generateNarrativeHandler, continueNarrative } from '../controllers/openaiController.js';
 
 
 const router = express.Router();

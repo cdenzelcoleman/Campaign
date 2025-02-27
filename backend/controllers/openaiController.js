@@ -1,6 +1,21 @@
 import Campaign from '../models/Campaign.js';
-import { generateNarrative } from '../utilities/openaiService.js';
+import { generateNarrative as openaiGenerateNarrative } from '../utilities/openaiService.js';
 
+export const generateNarrativeHandler = async (req, res) => {
+  try {
+    const { prompt, context } = req.body;
+    const messages = [
+      { role: 'system', content
+      : 'You are a fantasy RPG game master. Respond in 2-10 sentences.' },
+      { role: 'user', content: `${context}\n\n${prompt}` },
+    ];
+    const narrative = await openaiGenerateNarrative(message);
+    res.json({ narrative });
+  } catch (error) {
+    next(error);
+  }
+};
+ 
 export const continueNarrative = async (req, res, next) => {
   try {
     const {campaignId, userReponse} = req.body;
