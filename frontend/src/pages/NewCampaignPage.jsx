@@ -6,6 +6,23 @@ import { CHARACTERS } from '../Utils.js';
 import { getCharacters } from '../services/characterService';
 import './NewCampaignPage.css';
 
+const presetCampaignOptions = [
+  {title: 'Cyberpunk 2090', description: 'A neon-soaked world of high-tech crime and intrigue.'},
+  {title: 'Cyberpunk Fantasy Realms', description: 'A blend of cyberpunk and fantasy elements in a dystopian world.'},
+  {title: 'Space Opera', description: 'A galaxy-spanning adventure filled with aliens, starships, and intrigue.'},
+  { title: "Cyperpunk Dragon's Lair", description: "A neon-soaked world of high-tech crime and intrigue, with dragons." },
+  { title: "Cyberpunk The Lost Kingdom", description: "A blend of cyberpunk and fantasy elements in a dystopian world, with a lost kingdom to discover." },
+  { title: "Mystic Quest", description: "Set forth on a magical quest filled with mystery and wonder." },
+  { title: 'The Lost City of Zanbar', description: 'A city lost to time, hidden in the jungle. Rumors of treasure and danger abound.' },
+  { title: 'The Haunted Keep', description: 'A once grand fortress, now abandoned and rumored to be haunted.' },
+  { title: 'The Cursed Forest', description: 'A dark forest filled with ancient magic and deadly creatures.' },
+  { title: 'The Sunken Temple', description: 'An ancient temple hidden beneath the waves, guarded by fearsome creatures.' },
+  { title: 'The Tower of Sorcery', description: 'A tower filled with powerful magic and deadly traps.' },
+  { title: 'The Tomb of the Forgotten King', description: 'A tomb filled with treasure and guarded by the undead.' },
+  { title: 'The Crystal Caves', description: 'A network of caves filled with crystal formations and dangerous creatures.' },
+
+];
+
 const NewCampaign = () => {
   const navigate = useNavigate();
   const { id } = useParams();
