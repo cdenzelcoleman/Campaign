@@ -22,7 +22,6 @@ const CampaignDetailPage = () => {
   const [characters, setCharacters] = useState([]);
   const [userResponse, setUserResponse] = useState('');
   const [conversationHistory, setConversationHistory] = useState([]);
-  // New state to track if adventure has started
   const [adventureStarted, setAdventureStarted] = useState(false);
 
   useEffect(() => {
@@ -127,9 +126,8 @@ const CampaignDetailPage = () => {
         return;
       }
       setLoadingNarrative(true);
-      const text = await generateNarrative(campaign._id);
-      setNarrative(text);
-      // Set adventureStarted to true so the response textbox appears
+      const response = await generateNarrative(campaign._id);
+      setNarrative(response.narrative);
       setAdventureStarted(true);
     } catch (err) {
       console.error('Failed to generate narrative. Please try again.', err);
@@ -180,7 +178,6 @@ const CampaignDetailPage = () => {
           </p>
         ))}
       </div>
-      {/* Render the response form only if adventure has started */}
       {adventureStarted && (
         <form onSubmit={handleUserResponse}>
           <textarea
