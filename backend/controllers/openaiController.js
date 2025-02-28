@@ -17,12 +17,12 @@ export const generateNarrativeHandler = async (req, res, next) => {
 
 export const continueNarrative = async (req, res, next) => {
   try {
-    const {campaignId, userReponse} = req.body;
+    const {campaignId, userResponse} = req.body;
     const campaign = await Campaign.findById(campaignId);
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found.' });
     }
-    campaign.conversationHistory.push({ role: 'user', content: userReponse });
+    campaign.conversationHistory.push({ role: 'user', content: userResponse });
     if (campaign.conversationHistory.length ===1){
       campaign.conversationHistory.unshift({ role: 'system', content: 'You are a fantasy RPG game master. Respond in 2-10 sentences.',
       });
@@ -30,7 +30,7 @@ export const continueNarrative = async (req, res, next) => {
 
 
 
-    const narrativeText = await generateNarrative(campaign.conversationHistory);
+    const narrativeText = await openaiGenerateNarrative(campaign.conversationHistory);
     campaign.conversationHistory.push({ role: 'assistant', content: narrativeText });
     await campaign.save();
 
