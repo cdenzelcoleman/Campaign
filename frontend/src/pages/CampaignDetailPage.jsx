@@ -22,6 +22,8 @@ const CampaignDetailPage = () => {
   const [characters, setCharacters] = useState([]);
   const [userResponse, setUserResponse] = useState('');
   const [conversationHistory, setConversationHistory] = useState([]);
+  // New state to track if adventure has started
+  const [adventureStarted, setAdventureStarted] = useState(false);
 
   useEffect(() => {
     const fetchCampaign = async () => {
@@ -127,6 +129,8 @@ const CampaignDetailPage = () => {
       setLoadingNarrative(true);
       const text = await generateNarrative(campaign._id);
       setNarrative(text);
+      // Set adventureStarted to true so the response textbox appears
+      setAdventureStarted(true);
     } catch (err) {
       console.error('Failed to generate narrative. Please try again.', err);
       setError('Failed to generate narrative. Please try again.');
@@ -176,15 +180,18 @@ const CampaignDetailPage = () => {
           </p>
         ))}
       </div>
-      <form onSubmit={handleUserResponse}>
-        <textarea
-          value={userResponse}
-          onChange={(e) => setUserResponse(e.target.value)}
-          placeholder="Write your response to the narrative..."
-          required
-        ></textarea>
-        <button type="submit">Continue the Adventure</button>
-      </form>
+      {/* Render the response form only if adventure has started */}
+      {adventureStarted && (
+        <form onSubmit={handleUserResponse}>
+          <textarea
+            value={userResponse}
+            onChange={(e) => setUserResponse(e.target.value)}
+            placeholder="Write your response to the narrative..."
+            required
+          ></textarea>
+          <button type="submit">Continue the Adventure</button>
+        </form>
+      )}
       {isUpdating && campaign && (
         <form onSubmit={handleUpdate}>
           <div className="form-group">

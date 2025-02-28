@@ -106,6 +106,44 @@ form {
   outline: none;
 }
 
+.preset-dropdown {
+  width: 100%;
+  padding: 12px;
+  background: rgba(0, 0, 50, 0.8);
+  border: 2px solid rgba(0, 255, 255, 0.5);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.preset-dropdown:focus {
+  border-color: #00ffff;
+  box-shadow: 0 0 10px #00ffff;
+  outline: none;
+}
+
+.preset-preview {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px dashed #00ffff;
+  border-radius: 4px;
+  background: rgba(0, 0, 50, 0.5);
+  color: #ffcc00;
+  text-align: left;
+}
+
+.preset-preview h3 {
+  margin: 0 0 5px;
+  font-size: 20px;
+}
+
+.preset-preview p {
+  margin: 0;
+  font-size: 16px;
+}
+
+
 button {
   padding: 12px 18px;
   font-size: 16px;
