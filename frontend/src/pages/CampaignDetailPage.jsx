@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { getCampaignById, deleteCampaign, updateCampaign } from '../services/campaignService.js';
+import { getCampaignById, deleteCampaign, updateCampaign, publishCampaign } from '../services/campaignService.js';
 import CharacterSelection from '../components/CharacterSelection.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { getCharacters } from '../services/characterService';
@@ -224,6 +224,33 @@ const CampaignDetailPage = () => {
           <button type="submit">Edit Campaign</button>
         </form>
       )}
+      {user && campaign.owner._id === user._id && !campaign.isPublished && (
+  <button type="button" onClick={async () => {
+    try {
+      const updatedCampaign = await publishCampaign(campaign._id);
+      setCampaign(updatedCampaign);
+    } catch (error) {
+      setError('Failed to publish campaign.');
+      console.error(error);
+    }
+  }}>
+    Publish Campaign
+  </button>
+)}
+{campaign.isPublished && (
+  <>
+    <button type="button" onClick={async () => {
+      try {
+        await likeCampaign(campaign._id);
+      } catch (error) {
+        setError('Failed to like campaign.');
+      }
+    }}>
+      Like Campaign
+    </button>
+    <CommentSection campaignId={campaign._id} token={token} />
+  </>
+)}
     </div>
   );
 };

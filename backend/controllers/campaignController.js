@@ -63,7 +63,7 @@ export const publishCampaign = async (req, res) => {
   try {
     const campaign = await Campaign.findById(req.params.id).populate('owner');
     await campaign.populate('character');
-    if (campaign.user.toString() !== req.user._id.toString()) {
+    if (campaign.owner.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Unauthorized to publish this campaign' });
     }
 
