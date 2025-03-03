@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { getCampaignById, deleteCampaign, updateCampaign, publishCampaign } from '../services/campaignService.js';
+import CommentSection from '../components/CommentSection.jsx';
 import CharacterSelection from '../components/CharacterSelection.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { getCharacters } from '../services/characterService';
@@ -21,7 +22,7 @@ const CampaignDetailPage = () => {
   const [formData, setFormData] = useState({ title: '', description: '', character: '' });
   const [characters, setCharacters] = useState([]);
   const [userResponse, setUserResponse] = useState('');
-  const [conversationHistory, setConversationHistory] = useState([]);
+  const [conversationsHistory, setConversationsHistory] = useState([]);
   const [adventureStarted, setAdventureStarted] = useState(false);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const CampaignDetailPage = () => {
           description: campaignData?.description,
           character: campaignData?.character,
         });
-        setConversationHistory(campaignData.conversationHistory || []);
+        setConversationsHistory(campaignData.conversationsHistory || []);
 
         const charactersData = await getCharacters();
         setCharacters(charactersData);
@@ -53,7 +54,7 @@ const CampaignDetailPage = () => {
     try {
       const response = await continueNarrative(campaign._id, userResponse);
       setNarrative(response.narrative);
-      setConversationHistory(response.conversationHistory);
+      setConversationsHistory(response.conversationsHistory);
       setUserResponse('');
     } catch (err) {
       console.error('Failed to continue narrative. Please try again.', err);
@@ -172,7 +173,7 @@ const CampaignDetailPage = () => {
         </div>
       )}
       <div className="conversation-history">
-        {conversationHistory.map((msg, index) => (
+        {conversationsHistory.map((msg, index) => (
           <p key={index} className={`message ${msg.role}`}>
             <strong>{msg.role === 'user' ? 'You' : 'GM'}:</strong> {msg.content}
           </p>

@@ -8,7 +8,7 @@ import {
   deleteCampaign,
   likeCampaign,
   deleteAllCampaign,
-  addComment,
+  addComment, getComments
 } from '../controllers/campaignController.js';
 
 
@@ -25,5 +25,7 @@ router.put('/:id/publish', ensureLoggedIn, publishCampaign);
 router.delete('/:id', ensureLoggedIn, deleteCampaign);
 router.put('/:id/like', ensureLoggedIn, likeCampaign);
 router.post('/:id/comments', ensureLoggedIn, addComment);
+router.get('/:id/comments', getComments);
+
 
 export default router;

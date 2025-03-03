@@ -22,19 +22,19 @@ export const continueNarrative = async (req, res, next) => {
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found.' });
     }
-    campaign.conversationHistory.push({ role: 'user', content: userResponse });
-    if (campaign.conversationHistory.length ===1){
-      campaign.conversationHistory.unshift({ role: 'system', content: 'You are a fantasy RPG game master. Respond in 2-10 sentences.',
+    campaign.conversationsHistory.push({ role: 'user', content: userResponse });
+    if (campaign.conversationsHistory.length ===1){
+      campaign.conversationsHistory.unshift({ role: 'system', content: 'You are a fantasy RPG game master. Respond in 2-10 sentences.',
       });
     }
 
 
 
-    const narrativeText = await openaiGenerateNarrative(campaign.conversationHistory);
-    campaign.conversationHistory.push({ role: 'assistant', content: narrativeText });
+    const narrativeText = await openaiGenerateNarrative(campaign.conversationsHistory);
+    campaign.conversationsHistory.push({ role: 'assistant', content: narrativeText });
     await campaign.save();
 
-    res.json({ narrative: narrativeText, conversationHistory: campaign.conversationHistory });
+    res.json({ narrative: narrativeText, conversationsHistory: campaign.conversationsHistory });
   } catch (error) {
     console.error('Continue Narrative Error:', error);
     next(error);

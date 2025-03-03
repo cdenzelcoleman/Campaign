@@ -63,7 +63,7 @@ export const publishCampaign = async (req, res) => {
   try {
     const campaign = await Campaign.findById(req.params.id).populate('owner');
     await campaign.populate('character');
-    if (campaign.owner.toString() !== req.user._id.toString()) {
+    if (campaign.owner._id.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Unauthorized to publish this campaign' });
     }
 
@@ -104,7 +104,7 @@ export const likeCampaign = async (req, res) => {
     const campaign = await Campaign.findById(req.params.id);
     const userId = req.user._id;
 
-    if (campaign.likes.includes(_id)) {
+    if (campaign.likes.includes(_id, userId)) {
       campaign.likes.pull(userId);
     } else {
       campaign.likes.push(userId);
@@ -150,6 +150,18 @@ export const addComment = async (req, res) => {
   } catch (error) {
     console.error('Add Comment Error:', error);
     res.status(400).json({ error: error.message });
+  }
+};
+
+export const getComments = async (req, res, next) => {
+  try {
+    const campaign = await Campaign.findById(req.params.id).populate('comments.user', 'username email');
+    if (!campaign) {
+      return res.status(404).json({ error: 'Campaign not found' });
+    }
+    ReadableStream.status(200).json({ comments: campaign.comments});
+  } catch (error) {
+    next(error);
   }
 };
 

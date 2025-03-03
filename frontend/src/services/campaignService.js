@@ -9,7 +9,7 @@ export const createCampaign = async (campaignData) => {
 };
 
 export const publishCampaign = async (id) => {
-  const response = await sendRequest(`${BASE_URL}/${id}/publish`, 'PATCH');
+  const response = await sendRequest(`${BASE_URL}/${id}/publish`, 'PUT');
   return response;
 };
 
@@ -49,6 +49,11 @@ export const likeCampaign = async (id) => {
 export const addComment = async (id, commentData) => {
   return await sendRequest(`${BASE_URL}/${id}/comments`, 'POST', commentData);
 };
+
+export const getComments = async (id) => {
+  return await sendRequest(`${BASE_URL}/${id}/comments`, 'GET');
+};
+
 
 export function getToken() {
   const token = localStorage.getItem('token');
