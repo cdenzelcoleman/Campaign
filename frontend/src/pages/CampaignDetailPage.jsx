@@ -6,6 +6,7 @@ import CharacterSelection from '../components/CharacterSelection.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { getCharacters } from '../services/characterService';
 import { generateNarrative, continueNarrative } from '../services/openaiService.js';
+import { getToken } from '../services/authService.js';
 import './CampaignDetailPage.css'; 
 
 const CampaignDetailPage = () => {
@@ -24,6 +25,8 @@ const CampaignDetailPage = () => {
   const [userResponse, setUserResponse] = useState('');
   const [conversationsHistory, setConversationsHistory] = useState([]);
   const [adventureStarted, setAdventureStarted] = useState(false);
+
+  const token = getToken();
 
   useEffect(() => {
     const fetchCampaign = async () => {
