@@ -176,11 +176,12 @@ const CampaignDetailPage = () => {
         </div>
       )}
       <div className="conversation-history">
-        {conversationsHistory.map((msg, index) => (
+        {conversationsHistory.filter(msg => msg.role !== "system").map((msg, index) => (
           <p key={index} className={`message ${msg.role}`}>
-            <strong>{msg.role === 'user' ? 'You' : 'GM'}:</strong> {msg.content}
-          </p>
-        ))}
+          <strong>{msg.role === 'user' ? 'You' : 'GM'}:</strong> {msg.content}
+        </p>
+      ))
+    }
       </div>
       {adventureStarted && (
         <form onSubmit={handleUserResponse}>
