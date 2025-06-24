@@ -67,5 +67,3 @@ const campaignSchema = new mongoose.Schema({
 });
 
 export default mongoose.model('Campaign', campaignSchema);
-
-// diaolog response, Array?Embedded model?

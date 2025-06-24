@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { getCampaignById, deleteCampaign, updateCampaign, publishCampaign } from '../services/campaignService.js';
 import CommentSection from '../components/CommentSection.jsx';
@@ -51,7 +51,7 @@ const CampaignDetailPage = () => {
     fetchCampaign();
   }, [id]);
 
-  const handleUserResponse = async (e) => {
+  const handleUserResponse = useCallback(async (e) => {
     e.preventDefault();
     if (!userResponse.trim()) return;
     try {
@@ -63,13 +63,13 @@ const CampaignDetailPage = () => {
       console.error('Failed to continue narrative. Please try again.', err);
       setError('Failed to continue narrative. Please try again.');
     }
-  };
+  }, [campaign?._id, userResponse]);
 
-  const handleToggleUpdate = () => {
+  const handleToggleUpdate = useCallback(() => {
     setIsUpdating(!isUpdating);
-  };
+  }, [isUpdating]);
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = useCallback(async (e) => {
     e.preventDefault();
     if (!formData.title || !formData.description) {
       console.error('Required fields missing');
@@ -94,20 +94,20 @@ const CampaignDetailPage = () => {
     } catch (err) {
       console.error('Failed to update campaign. Please try again.', err);
     }
-  };
+  }, [formData, campaign?.owner?._id, user?._id, id, handleToggleUpdate]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
+  const handleChange = useCallback((e) => {
+    setFormData(prev => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
-  };
+    }));
+  }, []);
 
-  const handleSelectCharacter = (character) => {
-    setFormData({ ...formData, character });
-  };
+  const handleSelectCharacter = useCallback((character) => {
+    setFormData(prev => ({ ...prev, character }));
+  }, []);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     setIsDeleting(true);
     try {
       if (campaign.owner._id !== user._id) {
@@ -121,9 +121,9 @@ const CampaignDetailPage = () => {
     } finally {
       setIsDeleting(false);
     }
-  };
+  }, [campaign?.owner?._id, user?._id, id, navigate]);
 
-  const handleStartCampaign = async () => {
+  const handleStartCampaign = useCallback(async () => {
     try {
       if (campaign.owner._id !== user._id) {
         setError('Unauthorized to start this campaign');
@@ -139,7 +139,11 @@ const CampaignDetailPage = () => {
     } finally {
       setLoadingNarrative(false);
     }
-  };
+  }, [campaign?._id, campaign?.owner?._id, user?._id]);
+
+  const filteredConversationsHistory = useMemo(() => {
+    return conversationsHistory.filter(msg => msg.role !== "system");
+  }, [conversationsHistory]);
 
   if (error) {
     return <p className="error-message">{error}</p>;
@@ -159,15 +163,18 @@ const CampaignDetailPage = () => {
       <p><strong>Description:</strong> {campaign.character.description}</p>
       <p><strong>Campaign Title:</strong> {campaign.title}</p>
       <p><strong>Campaign Description:</strong> {campaign.description}</p>
-      <button type="button" onClick={handleStartCampaign}>
-        Start Your Adventure
-      </button>
-      <button type="button" onClick={handleToggleUpdate}>
-        {isUpdating ? 'Cancel' : 'Edit'}
-      </button>
-      <button type="button" onClick={handleDelete} disabled={isDeleting}>
-        {isDeleting ? 'Deleting Campaign...' : 'Delete'}
-      </button>
+      
+      <div className="button-group">
+        <button type="button" onClick={handleStartCampaign}>
+          Start Your Adventure
+        </button>
+        <button type="button" onClick={handleToggleUpdate}>
+          {isUpdating ? 'Cancel' : 'Edit'}
+        </button>
+        <button type="button" onClick={handleDelete} disabled={isDeleting}>
+          {isDeleting ? 'Deleting Campaign...' : 'Delete'}
+        </button>
+      </div>
       {loadingNarrative && <p>Your adventure is loading...</p>}
       {narrative && (
         <div className="narrative-section">
@@ -176,12 +183,11 @@ const CampaignDetailPage = () => {
         </div>
       )}
       <div className="conversation-history">
-        {conversationsHistory.filter(msg => msg.role !== "system").map((msg, index) => (
+        {filteredConversationsHistory.map((msg, index) => (
           <p key={index} className={`message ${msg.role}`}>
           <strong>{msg.role === 'user' ? 'You' : 'GM'}:</strong> {msg.content}
         </p>
-      ))
-    }
+      ))}
       </div>
       {adventureStarted && (
         <form onSubmit={handleUserResponse}>

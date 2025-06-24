@@ -42,15 +42,20 @@ export async function updateProfile(req, res) {
     const { name, email, password } = req.body;
     const user = await User.findById(req.user.userId);
     if (!user) throw new Error();
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (password) {
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-}
-    Object.assign(user, req.body);
+    
+    // Only allow specific fields to be updated
+    if (name && typeof name === 'string') user.name = name.trim();
+    if (email && typeof email === 'string') user.email = email.trim().toLowerCase();
+    if (password && typeof password === 'string' && password.length >= 8) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+    
     await user.save();
-    res.json(user);
+    
+    // Don't return sensitive data
+    const { password: _, ...userResponse } = user.toObject();
+    res.json(userResponse);
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: 'User Not Found' });

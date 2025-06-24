@@ -122,43 +122,68 @@ const NewCampaign = () => {
     <div className="new-campaign-page">
       <div className="new-campaign-container">
         <h2>{isUpdating ? 'Update Campaign' : 'Create New Campaign'}</h2>
-        <form onSubmit={isUpdating ? handleSubmit : handleSubmit}>
+        
+        {/* Step 1: Campaign Selection */}
+        <div className="campaign-setup-section">
+          <div className="section-header">
+            <h3>Step 1: Choose Your Campaign</h3>
+          </div>
           <div className="form-group">
-          <select
-  id="presetCampaign"
-  className="preset-dropdown"
-  value={selectedPresetIndex}
-  onChange={handlePresetSelect}
->
-  <option value="">-- Choose a preset campaign --</option>
-  {presetCampaignOptions.map((option, index) => (
-    <option key={index} value={index}>
-      {option.title}
-    </option>
-  ))}
-</select>
+            <label htmlFor="presetCampaign">Select a Campaign Template:</label>
+            <select
+              id="presetCampaign"
+              className="preset-dropdown"
+              value={selectedPresetIndex}
+              onChange={handlePresetSelect}
+            >
+              <option value="">-- Choose a preset campaign --</option>
+              {presetCampaignOptions.map((option, index) => (
+                <option key={index} value={index}>
+                  {option.title}
+                </option>
+              ))}
+            </select>
           </div>
 
           {formData.title && (
             <div className="preset-preview">
-              <h3>{formData.title}</h3>
+              <h4>{formData.title}</h4>
               <p>{formData.description}</p>
             </div>
           )}
+        </div>
 
-          {/* Character Selection */}
-          <div className="character-selection">
-            <CharacterSelection
-              characters={characters}
-              selectedCharacterId={selectedCharacterId}
-              onSelectCharacter={handleSelectCharacter}
-            />
+        {/* Step 2: Character Selection */}
+        {formData.title && (
+          <div className="character-setup-section">
+            <div className="section-header">
+              <h3>Step 2: Choose Your Character</h3>
+              <p>Select the character that will lead this campaign</p>
+            </div>
+            <div className="character-selection-wrapper">
+              <CharacterSelection
+                characters={characters}
+                selectedCharacterId={selectedCharacterId}
+                onSelectCharacter={handleSelectCharacter}
+              />
+            </div>
           </div>
+        )}
 
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Creating Campaign...' : 'Create Campaign'}
-          </button>
-        </form>
+        {/* Step 3: Create Campaign */}
+        {formData.title && selectedCharacterId && (
+          <div className="submit-section">
+            <div className="section-header">
+              <h3>Step 3: Create Your Campaign</h3>
+              <p>Ready to begin your adventure?</p>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <button type="submit" disabled={isSubmitting} className="create-campaign-btn">
+                {isSubmitting ? 'Creating Campaign...' : 'Create Campaign'}
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

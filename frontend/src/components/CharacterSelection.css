@@ -4,7 +4,7 @@
 
 .character-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   max-width: 1000px; 
   margin: 0 auto;
@@ -58,4 +58,76 @@
 
 .character-card:hover .character-description {
   opacity: 1;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .character-selection {
+    padding: 16px;
+  }
+  
+  .character-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  
+  .character-card {
+    padding: 12px;
+  }
+  
+  /* Show description by default on mobile (no hover) */
+  .character-description {
+    opacity: 0.8;
+    position: static;
+    background: rgba(0, 0, 0, 0.6);
+    margin-top: 8px;
+    border-radius: 4px;
+    max-height: none;
+    font-size: 0.85rem;
+  }
+  
+  .character-card:hover .character-description {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .character-selection {
+    padding: 12px;
+  }
+  
+  .character-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .character-card {
+    padding: 16px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .character-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+  
+  .character-info {
+    flex: 1;
+  }
+  
+  .character-description {
+    opacity: 1;
+    position: static;
+    background: none;
+    color: #666;
+    padding: 0;
+    margin-top: 4px;
+    font-size: 0.8rem;
+  }
 }

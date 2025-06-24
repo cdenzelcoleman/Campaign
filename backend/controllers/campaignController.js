@@ -47,13 +47,33 @@ export const getCampaignById = async (req, res, next) => {
 
 export const updateCampaign = async (req, res, next) => {
   try {
-    const campaign = await Campaign.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('owner');
-    await campaign.populate('character');
+    // First check if campaign exists and user is authorized
+    const campaign = await Campaign.findById(req.params.id).populate('owner character');
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found.' });
     }
+    
+    // Authorization check
+    if (campaign.owner._id.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: 'Unauthorized to update this campaign' });
+    }
 
-    res.status(200).json( campaign );
+    // Only allow specific fields to be updated
+    const allowedFields = ['title', 'description', 'character'];
+    const updateData = {};
+    for (const field of allowedFields) {
+      if (req.body[field] !== undefined) {
+        updateData[field] = req.body[field];
+      }
+    }
+
+    const updatedCampaign = await Campaign.findByIdAndUpdate(
+      req.params.id, 
+      updateData, 
+      { new: true }
+    ).populate('owner character');
+
+    res.status(200).json(updatedCampaign);
   } catch (error) {
     next(error);
   }
@@ -84,13 +104,19 @@ export const publishCampaign = async (req, res) => {
 };
 
 export const deleteCampaign = async (req, res, next) => {
-  console.log(req.params.id);
   try {
-    const campaign = await Campaign.findByIdAndDelete(req.params.id);
+    // First check if campaign exists and user is authorized
+    const campaign = await Campaign.findById(req.params.id).populate('owner');
     if (!campaign) {
       return res.status(404).json({ message: 'Campaign not found.' });
-    }  
+    }
+    
+    // Authorization check
+    if (campaign.owner._id.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: 'Unauthorized to delete this campaign' });
+    }
 
+    await Campaign.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Campaign deleted successfully.' });
   } catch (error) {
     console.error('Delete Campaign Error:', error);
@@ -104,7 +130,7 @@ export const likeCampaign = async (req, res) => {
     const campaign = await Campaign.findById(req.params.id);
     const userId = req.user._id;
 
-    if (campaign.likes.includes(_id, userId)) {
+    if (campaign.likes.includes(userId)) {
       campaign.likes.pull(userId);
     } else {
       campaign.likes.push(userId);

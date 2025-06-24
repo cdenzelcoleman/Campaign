@@ -8,5 +8,16 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:3000'
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router', 'react-router-dom']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
   }
 })

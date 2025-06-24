@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getComments, addComment } from '../services/campaignService';
 import './CommentSection.css';
 
-const CommentSection = ({ campaignId, token }) => {
+const CommentSection = React.memo(({ campaignId, token }) => {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
   const [error, setError] = useState('');
@@ -19,7 +19,7 @@ const CommentSection = ({ campaignId, token }) => {
     fetchComments();
   }, [campaignId]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     if (!commentText.trim()) return;
 
@@ -30,7 +30,7 @@ const CommentSection = ({ campaignId, token }) => {
     } catch (err) {
       setError('Failed to add comment.');
     }
-  };
+  }, [campaignId, commentText, token, comments]);
 
   return (
     <div className="comment-section">
@@ -57,6 +57,6 @@ const CommentSection = ({ campaignId, token }) => {
       {!token && <p>Please log in to add comments.</p>}
     </div>
   );
-};
+});
 
 export default CommentSection;
