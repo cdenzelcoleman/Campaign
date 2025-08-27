@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { signUp, logIn } from '../services/authService.js';
 
 export const AuthContext = createContext();
@@ -48,25 +48,17 @@ export const AuthProvider = ({ children }) => {
   
 
   const handleSignup = async (userData) => {
-    try {
-      const response = await signUp(userData);
-      setUser(response.user);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      localStorage.setItem('token', response.token);
-    } catch (error) {
-      throw error; 
-    }
+    const response = await signUp(userData);
+    setUser(response.user);
+    localStorage.setItem('user', JSON.stringify(response.user));
+    localStorage.setItem('token', response.token);
   };
 
   const handleLogin = async (credentials) => {
-    try {
-      const response = await logIn(credentials); 
-      setUser(response.user);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      localStorage.setItem('token', response.token);
-    } catch (error) {
-      throw error; 
-    }
+    const response = await logIn(credentials); 
+    setUser(response.user);
+    localStorage.setItem('user', JSON.stringify(response.user));
+    localStorage.setItem('token', response.token);
   };
 
   const logout = () => {

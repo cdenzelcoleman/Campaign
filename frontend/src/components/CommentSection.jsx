@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { getComments, addComment } from '../services/campaignService';
 import './CommentSection.css';
 
-const CommentSection = React.memo(({ campaignId, token }) => {
+const CommentSection = memo(({ campaignId, token }) => {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
   const [error, setError] = useState('');
@@ -12,7 +12,8 @@ const CommentSection = React.memo(({ campaignId, token }) => {
       try {
         const response = await getComments(campaignId);
         setComments(response.data);
-      } catch (err) {
+      } catch (error) {
+        console.error('Failed to load comments:', error);
         setError('Failed to load comments.');
       }
     };
@@ -27,7 +28,8 @@ const CommentSection = React.memo(({ campaignId, token }) => {
       const response = await addComment(campaignId, { text: commentText }, token);
       setComments([...comments, response.data]);
       setCommentText('');
-    } catch (err) {
+    } catch (error) {
+      console.error('Failed to add comment:', error);
       setError('Failed to add comment.');
     }
   }, [campaignId, commentText, token, comments]);
@@ -58,5 +60,7 @@ const CommentSection = React.memo(({ campaignId, token }) => {
     </div>
   );
 });
+
+CommentSection.displayName = 'CommentSection';
 
 export default CommentSection;

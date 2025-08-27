@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { updateUserProfile } from '../services/authService';
 import './ProfilePage.css';
@@ -17,13 +17,14 @@ const ProfilePage = () => {
           const response = await updateUserProfile({ username, email }, token);
           setUser(response.data);
          
-        } catch (err) {
+        } catch (error) {
+          console.error('Failed to load user profile:', error);
           setError('Failed to load user profile');
         }
       }
     };
     fetchUser();
-  }, [token, setUser]);
+  }, [token, setUser, username, email]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

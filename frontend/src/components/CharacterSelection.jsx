@@ -1,8 +1,8 @@
-import React from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import './CharacterSelection.css';
 
-const CharacterSelection = React.memo(({ characters, selectedCharacterId, onSelectCharacter}) => {
+const CharacterSelection = memo(({ characters, selectedCharacterId, onSelectCharacter}) => {
     return (
         <div className='character-selection'>
             <h3>Choose Your Adventurer</h3>
@@ -31,6 +31,8 @@ const CharacterSelection = React.memo(({ characters, selectedCharacterId, onSele
         </div>
     );
 });
+
+CharacterSelection.displayName = 'CharacterSelection';
 
 CharacterSelection.propTypes = {
     characters: PropTypes.array.isRequired,

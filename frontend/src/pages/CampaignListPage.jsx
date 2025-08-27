@@ -7,15 +7,14 @@ import './CampaignListPage.css';
 const CampaignListPage = () => {
   const { token } = useContext(AuthContext);
   const [campaigns, setCampaigns] = useState([]);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
         const response = await getCampaigns(token);
         setCampaigns(response.campaigns);
-      } catch (err) {
-        setError('Failed to load campaigns');
+      } catch (error) {
+        console.error('Failed to load campaigns:', error);
       }
     };
     fetchCampaigns();

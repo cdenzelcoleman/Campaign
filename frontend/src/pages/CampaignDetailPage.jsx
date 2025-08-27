@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { getCampaignById, deleteCampaign, updateCampaign, publishCampaign } from '../services/campaignService.js';
+import { getCampaignById, deleteCampaign, updateCampaign, publishCampaign, likeCampaign } from '../services/campaignService.js';
 import CommentSection from '../components/CommentSection.jsx';
 import CharacterSelection from '../components/CharacterSelection.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
@@ -94,7 +94,7 @@ const CampaignDetailPage = () => {
     } catch (err) {
       console.error('Failed to update campaign. Please try again.', err);
     }
-  }, [formData, campaign?.owner?._id, user?._id, id, handleToggleUpdate]);
+  }, [formData, campaign?.owner, user, id, handleToggleUpdate]);
 
   const handleChange = useCallback((e) => {
     setFormData(prev => ({
@@ -253,7 +253,8 @@ const CampaignDetailPage = () => {
     <button type="button" onClick={async () => {
       try {
         await likeCampaign(campaign._id);
-      } catch (error) {
+      } catch (err) {
+        console.error('Failed to like campaign:', err);
         setError('Failed to like campaign.');
       }
     }}>

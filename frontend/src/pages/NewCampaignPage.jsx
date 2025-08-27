@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CharacterSelection from '../components/CharacterSelection.jsx';
-import { createCampaign, updateCampaign, deleteCampaign, getCampaignById } from '../services/campaignService';
+import { createCampaign, getCampaignById } from '../services/campaignService';
 import { getCharacters } from '../services/characterService';
 import './NewCampaignPage.css';
 
@@ -114,9 +114,6 @@ const NewCampaign = () => {
     fetchCharacters();
   }, []);
 
-  const handleCancel = () => {
-    navigate(`/campaigns/${id}`);
-  };
 
   return (
     <div className="new-campaign-page">
