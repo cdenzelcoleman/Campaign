@@ -18,7 +18,9 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-connectDB();
+connectDB().catch(err => {
+  console.error('Database connection failed, but server will continue:', err);
+});
 
 // Security headers
 app.use((req, res, next) => {
