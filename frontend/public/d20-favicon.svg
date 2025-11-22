@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="diceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#357abd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2c5aa0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.6" />
+    </linearGradient>
+  </defs>
+  
+  <!-- D20 Shape (Icosahedron) -->
+  <g transform="translate(16,16)">
+    <!-- Shadow -->
+    <polygon points="-12,8 -6,14 6,14 12,8 0,-2" fill="url(#shadowGradient)" transform="translate(2,2)" opacity="0.4"/>
+    
+    <!-- Main D20 Body -->
+    <!-- Top pyramid -->
+    <polygon points="0,-12 -8,-4 0,0" fill="url(#diceGradient)" stroke="#2c5aa0" stroke-width="0.5"/>
+    <polygon points="0,-12 0,0 8,-4" fill="url(#diceGradient)" stroke="#2c5aa0" stroke-width="0.5" opacity="0.9"/>
+    
+    <!-- Middle band -->
+    <polygon points="-8,-4 -12,4 0,0" fill="url(#diceGradient)" stroke="#2c5aa0" stroke-width="0.5" opacity="0.8"/>
+    <polygon points="0,0 12,4 8,-4" fill="url(#diceGradient)" stroke="#2c5aa0" stroke-width="0.5" opacity="0.85"/>
+    
+    <!-- Bottom pyramid -->
+    <polygon points="-12,4 0,12 0,0" fill="url(#diceGradient)" stroke="#2c5aa0" stroke-width="0.5" opacity="0.7"/>
+    <polygon points="0,0 0,12 12,4" fill="url(#diceGradient)" stroke="#2c5aa0" stroke-width="0.5" opacity="0.75"/>
+    
+    <!-- Number "20" on visible face -->
+    <text x="3" y="1" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="#ffffff" text-anchor="middle" opacity="0.9">20</text>
+    
+    <!-- Highlight for 3D effect -->
+    <polygon points="0,-12 -4,-6 0,-2" fill="#ffffff" opacity="0.3"/>
+  </g>
+</svg>
