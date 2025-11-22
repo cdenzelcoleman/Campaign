@@ -1,6 +1,6 @@
 
 .campaign-detail-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 40px;
   text-align: center;
@@ -8,6 +8,24 @@
   border-radius: 8px;
   color: #333;
   width: calc(100% - 40px);
+}
+
+.campaign-content {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.main-content {
+  flex: 2;
+  text-align: center;
+}
+
+.sidebar {
+  flex: 1;
+  min-width: 280px;
+  text-align: left;
 }
 
 .campaign-detail-container h2 {
@@ -135,6 +153,15 @@
     margin: 20px auto;
     padding: 20px;
     width: calc(100% - 20px);
+  }
+  
+  .campaign-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .sidebar {
+    min-width: auto;
   }
   
   .campaign-detail-container h2 {

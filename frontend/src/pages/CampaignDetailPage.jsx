@@ -263,6 +263,11 @@ const CampaignDetailPage = () => {
     <CommentSection campaignId={campaign._id} token={token} />
   </>
 )}
+        </div>
+        <div className="sidebar">
+          <RecentChoices choices={recentChoices} />
+        </div>
+      </div>
     </div>
   );
 };
