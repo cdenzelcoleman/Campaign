@@ -48,22 +48,17 @@ export const AuthProvider = ({ children }) => {
   
 
   const handleSignup = async (userData) => {
-    const response = await signUp(userData);
-    setUser(response.user);
-    localStorage.setItem('user', JSON.stringify(response.user));
-    localStorage.setItem('token', response.token);
+    const user = await signUp(userData);
+    setUser(user);
   };
 
   const handleLogin = async (credentials) => {
-    const response = await logIn(credentials); 
-    setUser(response.user);
-    localStorage.setItem('user', JSON.stringify(response.user));
-    localStorage.setItem('token', response.token);
+    const user = await logIn(credentials); 
+    setUser(user);
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
     localStorage.removeItem('token');
   };
 

@@ -1,7 +1,6 @@
 export const CHARACTERS = [
   {
     image: 'https://i.imgur.com/pMFnZyu.png',
-    id: 1,
     role: 'Neon Shaman',
     name: 'Aetheris Vox',
     description: `Personality: Mysterious, wise, and deeply connected to both the digital and spiritual worlds. Speaks in cryptic riddles and sees patterns in the chaos of cyberspace.
@@ -14,7 +13,6 @@ Backstory: Once a rogue netrunner, Aetheris was nearly lost in a forbidden secti
   },
   {
     image: 'https://i.imgur.com/Btt9foj.png',
-    id: 2,
     role: 'Technomancer Priestess',
     name: 'Seraphina Core',
     description: `Personality: Calm, resolute, and enigmatic. A beacon of hope in the dystopian world, guiding lost souls with a blend of technology and faith.
@@ -27,7 +25,6 @@ Backstory: A high priestess of a secret order that worships the fusion of machin
   },
   {
     image: 'https://i.imgur.com/3XZ6hoX.png',
-    id: 3,
     role: 'Shadowblade Operative',
     name: 'Nyx Phantom',
     description: `Personality: Cold, calculating, and efficient. Speaks only when necessary and trusts no one. Prefers to work in silence, blending into the darkness.
@@ -41,7 +38,6 @@ Backstory: A product of an abandoned cyber-assassin program, Nyx Phantom erased 
   },
   {
     image: 'https://i.imgur.com/6Ogw1KQ.png',
-    id: 4,
     role: 'Bio-Hacker Alchemist',
     name: 'Dr. Helix Vire',
     description: `Personality: Brilliant but chaotic. Always experimenting, always pushing boundaries. Talks fast, thinks faster, and treats combat like a scientific test.
@@ -55,7 +51,6 @@ Backstory: A former medical researcher who turned to black-market biohacking aft
   },
   {
     image: 'https://i.imgur.com/H2jsoYX.png',
-    id: 5,
     role: 'Arcane Cyborg Gladiator',
     name: 'Titan Aegis',
     description: `Personality: Stoic, honorable, and relentless. Believes in the code of warriors and never backs down from a challenge. Loyal to those who earn his respect.

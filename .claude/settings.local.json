@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(heroku config:*)",
-      "Bash(heroku:*)"
+      "Bash(heroku:*)",
+      "Bash(npm start)",
+      "Bash(ls:*)",
+      "Bash(node:*)",
+      "Bash(brew services:*)",
+      "Bash(curl:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }

@@ -7,7 +7,7 @@ Welcome to **The Campaign**! a Fantasy RPG web application that lets players cre
 - **Database:** MongoDB
 - **Frontend:** React, Vite
 - **API Intergration:** OpenAI API
-- **Additional Libraries:** Axios,JWT for authentication.
+- **Additional Libraries:** JWT for authentication.
 
 ## Features
 - **User Authentication:** Secure sign-up and login using JWT..

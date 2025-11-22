@@ -39,8 +39,7 @@ export default function SignUpPage() {
       <div className="signup-container">
       <h2>Sign Up!</h2>
       <form autoComplete="off" onSubmit={handleSubmit}>
-        <div className="form-group
-        ">
+        <div className="form-group">
         <label>Name</label>
         <input
           type="text"
@@ -50,8 +49,7 @@ export default function SignUpPage() {
           required
         />
         </div>
-        <div className="form-group
-        ">
+        <div className="form-group">
         <label>Email</label>
         <input
           type="email"
@@ -61,8 +59,7 @@ export default function SignUpPage() {
           required
         />
         </div>
-        <div className="form-group
-        ">
+        <div className="form-group">
         <label>Password</label>
         <input
           type="password"
@@ -72,8 +69,7 @@ export default function SignUpPage() {
           required
         />
         </div>
-        <div className="form-group
-        ">        
+        <div className="form-group">        
         <label>Confirm</label>
         <input
           type="password"

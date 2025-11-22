@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { getCampaignById, deleteCampaign, updateCampaign, publishCampaign, likeCampaign } from '../services/campaignService.js';
 import CommentSection from '../components/CommentSection.jsx';
 import CharacterSelection from '../components/CharacterSelection.jsx';
+import RecentChoices from '../components/RecentChoices.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { getCharacters } from '../services/characterService';
 import { generateNarrative, continueNarrative } from '../services/openaiService.js';
@@ -25,6 +26,7 @@ const CampaignDetailPage = () => {
   const [userResponse, setUserResponse] = useState('');
   const [conversationsHistory, setConversationsHistory] = useState([]);
   const [adventureStarted, setAdventureStarted] = useState(false);
+  const [recentChoices, setRecentChoices] = useState([]);
 
   const token = getToken();
 
@@ -58,6 +60,7 @@ const CampaignDetailPage = () => {
       const response = await continueNarrative(campaign._id, userResponse);
       setNarrative(response.narrative);
       setConversationsHistory(response.conversationsHistory);
+      setRecentChoices(prev => [...prev, userResponse.trim()]);
       setUserResponse('');
     } catch (err) {
       console.error('Failed to continue narrative. Please try again.', err);
@@ -156,113 +159,115 @@ const CampaignDetailPage = () => {
   return (
     <div className="campaign-detail-container">
       <h2>{campaign.title}</h2>
-      <p>
-        <img src={campaign.character.image} alt={campaign.character.name} />
-      </p>
-      <p><strong>Character:</strong> {campaign.character.name}</p>
-      <p><strong>Description:</strong> {campaign.character.description}</p>
-      <p><strong>Campaign Title:</strong> {campaign.title}</p>
-      <p><strong>Campaign Description:</strong> {campaign.description}</p>
-      
-      <div className="button-group">
-        <button type="button" onClick={handleStartCampaign}>
-          Start Your Adventure
-        </button>
-        <button type="button" onClick={handleToggleUpdate}>
-          {isUpdating ? 'Cancel' : 'Edit'}
-        </button>
-        <button type="button" onClick={handleDelete} disabled={isDeleting}>
-          {isDeleting ? 'Deleting Campaign...' : 'Delete'}
-        </button>
-      </div>
-      {loadingNarrative && <p>Your adventure is loading...</p>}
-      {narrative && (
-        <div className="narrative-section">
-          <p>{narrative}</p>
-          <h3>What will you do?</h3>
-        </div>
-      )}
-      <div className="conversation-history">
-        {filteredConversationsHistory.map((msg, index) => (
-          <p key={index} className={`message ${msg.role}`}>
-          <strong>{msg.role === 'user' ? 'You' : 'GM'}:</strong> {msg.content}
-        </p>
-      ))}
-      </div>
-      {adventureStarted && (
-        <form onSubmit={handleUserResponse}>
-          <textarea
-            value={userResponse}
-            onChange={(e) => setUserResponse(e.target.value)}
-            placeholder="Write your response to the narrative..."
-            required
-          ></textarea>
-          <button type="submit">Continue the Adventure</button>
-        </form>
-      )}
-      {isUpdating && campaign && (
-        <form onSubmit={handleUpdate}>
-          <div className="form-group">
-            <label htmlFor="title">Campaign Title</label>
-            <input
-              id="title"
-              name="title"
-              value={formData?.title}
-              onChange={handleChange}
-              required
-              placeholder="Campaign Title"
-            />
+      <div className="campaign-content">
+        <div className="main-content">
+          <p>
+            <img src={campaign.character.image} alt={campaign.character.name} />
+          </p>
+          <p><strong>Character:</strong> {campaign.character.name}</p>
+          <p><strong>Description:</strong> {campaign.character.description}</p>
+          <p><strong>Campaign Title:</strong> {campaign.title}</p>
+          <p><strong>Campaign Description:</strong> {campaign.description}</p>
+          
+          <div className="button-group">
+            <button type="button" onClick={handleStartCampaign}>
+              Start Your Adventure
+            </button>
+            <button type="button" onClick={handleToggleUpdate}>
+              {isUpdating ? 'Cancel' : 'Edit'}
+            </button>
+            <button type="button" onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? 'Deleting Campaign...' : 'Delete'}
+            </button>
           </div>
-          <div className="form-group">
-            <label htmlFor="description">Campaign Description</label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData?.description}
-              onChange={handleChange}
-              required
-              placeholder="Campaign Description"
-              rows="5"
-            ></textarea>
+          {loadingNarrative && <p>Your adventure is loading...</p>}
+          {narrative && (
+            <div className="narrative-section">
+              <p>{narrative}</p>
+              <h3>What will you do?</h3>
+            </div>
+          )}
+          <div className="conversation-history">
+            {filteredConversationsHistory.map((msg, index) => (
+              <p key={index} className={`message ${msg.role}`}>
+              <strong>{msg.role === 'user' ? 'You' : 'GM'}:</strong> {msg.content}
+            </p>
+            ))}
           </div>
-          <div className="character-selection">
-            <CharacterSelection
-              characters={characters}
-              selectedCharacterId={campaign?.character._id}
-              onSelectCharacter={handleSelectCharacter}
-            />
-          </div>
-          <button type="submit">Edit Campaign</button>
-        </form>
-      )}
-      {user && campaign.owner._id === user._id && !campaign.isPublished && (
-  <button type="button" onClick={async () => {
-    try {
-      const updatedCampaign = await publishCampaign(campaign._id);
-      setCampaign(updatedCampaign);
-    } catch (error) {
-      setError('Failed to publish campaign.');
-      console.error(error);
-    }
-  }}>
-    Publish Campaign
-  </button>
-)}
-{campaign.isPublished && (
-  <>
-    <button type="button" onClick={async () => {
-      try {
-        await likeCampaign(campaign._id);
-      } catch (err) {
-        console.error('Failed to like campaign:', err);
-        setError('Failed to like campaign.');
-      }
-    }}>
-      Like Campaign
-    </button>
-    <CommentSection campaignId={campaign._id} token={token} />
-  </>
-)}
+          {adventureStarted && (
+            <form onSubmit={handleUserResponse}>
+              <textarea
+                value={userResponse}
+                onChange={(e) => setUserResponse(e.target.value)}
+                placeholder="Write your response to the narrative..."
+                required
+              ></textarea>
+              <button type="submit">Continue the Adventure</button>
+            </form>
+          )}
+          {isUpdating && campaign && (
+            <form onSubmit={handleUpdate}>
+              <div className="form-group">
+                <label htmlFor="title">Campaign Title</label>
+                <input
+                  id="title"
+                  name="title"
+                  value={formData?.title}
+                  onChange={handleChange}
+                  required
+                  placeholder="Campaign Title"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Campaign Description</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={formData?.description}
+                  onChange={handleChange}
+                  required
+                  placeholder="Campaign Description"
+                  rows="5"
+                ></textarea>
+              </div>
+              <div className="character-selection">
+                <CharacterSelection
+                  characters={characters}
+                  selectedCharacterId={campaign?.character._id}
+                  onSelectCharacter={handleSelectCharacter}
+                />
+              </div>
+              <button type="submit">Edit Campaign</button>
+            </form>
+          )}
+          {user && campaign.owner._id === user._id && !campaign.isPublished && (
+            <button type="button" onClick={async () => {
+              try {
+                const updatedCampaign = await publishCampaign(campaign._id);
+                setCampaign(updatedCampaign);
+              } catch (error) {
+                setError('Failed to publish campaign.');
+                console.error(error);
+              }
+            }}>
+              Publish Campaign
+            </button>
+          )}
+          {campaign.isPublished && (
+            <>
+              <button type="button" onClick={async () => {
+                try {
+                  await likeCampaign(campaign._id);
+                } catch (err) {
+                  console.error('Failed to like campaign:', err);
+                  setError('Failed to like campaign.');
+                }
+              }}>
+                Like Campaign
+              </button>
+              <CommentSection campaignId={campaign._id} token={token} />
+            </>
+          )}
         </div>
         <div className="sidebar">
           <RecentChoices choices={recentChoices} />
