@@ -150,9 +150,10 @@
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .campaign-detail-container {
-    margin: 20px auto;
-    padding: 20px;
+    margin: 10px auto;
+    padding: 16px;
     width: calc(100% - 20px);
+    max-width: 100%;
   }
   
   .campaign-content {
@@ -160,8 +161,52 @@
     gap: 20px;
   }
   
+  .main-content {
+    order: 1;
+  }
+  
   .sidebar {
+    order: 2;
     min-width: auto;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  
+  /* Make buttons touch-friendly */
+  .button-group {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .button-group button {
+    min-height: 48px;
+    font-size: 16px;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  /* Optimize forms for mobile */
+  .main-content form {
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .main-content textarea {
+    min-height: 120px;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    resize: vertical;
+  }
+  
+  /* Character image sizing */
+  .main-content img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
   }
   
   .campaign-detail-container h2 {
