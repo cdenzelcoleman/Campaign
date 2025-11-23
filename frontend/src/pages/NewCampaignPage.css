@@ -415,6 +415,74 @@ button[type='button']:nth-of-type(2):hover {
     font-size: 13px;
   }
   
+  /* Mobile-friendly form elements */
+  .form-group input,
+  .form-group textarea,
+  .preset-dropdown {
+    padding: 16px;
+    font-size: 16px;
+    min-height: 48px;
+    border-radius: 8px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  .form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .form-group label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .preset-dropdown {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 9L1.5 4.5h9z' fill='%2300ffff'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 48px;
+  }
+  
+  /* Touch-friendly buttons */
+  button {
+    min-height: 48px;
+    padding: 16px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+    touch-action: manipulation;
+  }
+  
+  .create-campaign-btn {
+    width: 100%;
+    min-height: 56px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  button:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}
+
+@media (max-width: 480px) {
+  .new-campaign-container {
+    width: 98%;
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .campaign-setup-section,
+  .character-setup-section,
+  .submit-section {
+    padding: 15px;
+  }
+  
   .character-selection-wrapper {
     padding: 15px;
   }
@@ -462,61 +530,5 @@ button[type='button']:nth-of-type(2):hover {
   button {
     font-size: 14px;
     padding: 10px 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .new-campaign-container {
-    width: 98%;
-    padding: 15px;
-    gap: 15px;
-  }
-  
-  .campaign-setup-section,
-  .character-setup-section,
-  .submit-section {
-    padding: 15px;
-  }
-  
-  .character-selection-wrapper {
-    padding: 10px;
-  }
-  
-  .character-selection-wrapper .character-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  
-  .character-selection-wrapper .character-card {
-    padding: 15px;
-    text-align: center;
-    display: block;
-  }
-  
-  .character-selection-wrapper .character-image {
-    max-width: 80px;
-    height: 80px;
-  }
-  
-  .character-selection-wrapper .character-info {
-    margin-top: 8px;
-  }
-  
-  .character-selection-wrapper .character-info h4 {
-    font-size: 13px;
-  }
-  
-  .character-selection-wrapper .character-info p {
-    font-size: 12px;
-  }
-  
-  .character-selection-wrapper .character-description {
-    font-size: 10px;
-    margin-top: 6px;
-  }
-  
-  .create-campaign-btn {
-    font-size: 14px;
-    padding: 10px 20px;
   }
 }

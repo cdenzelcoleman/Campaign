@@ -58,20 +58,87 @@
 
 @media (max-width: 768px) {
   .recent-choices {
+    padding: 16px;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    border-left: 4px solid #007bff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .recent-choices h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .choices-list {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #007bff rgba(255, 255, 255, 0.1);
+  }
+  
+  .choice-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    border-left: 3px solid #007bff;
+    transition: background-color 0.2s ease;
+  }
+  
+  .choice-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .choice-item:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+  
+  .choice-number {
+    font-size: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 12px;
+    min-width: 20px;
+    margin-bottom: 4px;
+  }
+  
+  .choice-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-top: 4px;
+  }
+  
+  .no-choices {
+    text-align: center;
+    font-style: italic;
+    color: #ccc;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recent-choices {
     padding: 12px;
     margin-bottom: 16px;
   }
   
   .recent-choices h3 {
     font-size: 1rem;
-    margin-bottom: 10px;
   }
   
   .choice-item {
-    padding: 6px;
+    padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
   }
   
   .choice-text {
     font-size: 0.85rem;
+    margin-top: 4px;
   }
 }
